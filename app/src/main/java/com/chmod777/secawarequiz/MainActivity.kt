@@ -1,99 +1,113 @@
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-}
+package com.chmod777.secawarequiz
 
-android {
-    namespace = "com.chmod777.secawarequiz"
-    compileSdk = 34
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 
-    defaultConfig {
-        applicationId = "com.chmod777.secawarequiz"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-}
-
-dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
-    implementation("androidx.activity:activity-compose:1.9.0")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-
-    implementation("androidx.navigation:navigation-compose:2.8.0-beta02")
-
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+object NavRoutes {
+    const val LOGIN = "login"
+    const val REGISTER = "register"
+    const val HOME = "home"
+    const val TEST_SCREEN = "test_screen"
+    const val MINI_GAME_SCREEN = "mini_game_screen"
 }
 
 class MainActivity : ComponentActivity() {
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        val database = AppDatabase.getDatabase(applicationContext)
-        val questionDao = database.questionDao()
+        firebaseAuth = FirebaseAuth.getInstance()
 
         setContent {
-            SecAwareQuizTheme {
+            MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    AppNavHost(navController = navController, questionDao = questionDao)
+                    AppNavigation()
                 }
+            }
+        }
+    }
+
+    @Composable
+    fun AppNavigation() {
+        val navController = rememberNavController()
+        val initialUser = firebaseAuth.currentUser
+
+        val startDestination = if (initialUser != null) NavRoutes.HOME else NavRoutes.LOGIN
+
+        LaunchedEffect(firebaseAuth.currentUser) {
+            val currentUser = firebaseAuth.currentUser
+            val currentRoute = navController.currentBackStackEntry?.destination?.route
+
+            if (currentUser == null) {
+                if (currentRoute != NavRoutes.LOGIN && currentRoute != NavRoutes.REGISTER) {
+                    navController.navigate(NavRoutes.LOGIN) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            } else { // User is not null
+                if (currentRoute == NavRoutes.LOGIN || currentRoute == NavRoutes.REGISTER) {
+                    navController.navigate(NavRoutes.HOME) {
+                        popUpTo(currentRoute) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                } else if (currentRoute == null && startDestination == NavRoutes.LOGIN) {
+                    // This condition handles the case where the app starts, startDestination is LOGIN,
+                    // but a user is already authenticated (e.g. app was closed and reopened).
+                    navController.navigate(NavRoutes.HOME) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
+            }
+        }
+
+        NavHost(navController = navController, startDestination = startDestination) {
+            composable(NavRoutes.LOGIN) {
+                LoginScreen(
+                    onLoginSuccess = { /* Handled by LaunchedEffect */ },
+                    onNavigateToRegister = { navController.navigate(NavRoutes.REGISTER) }
+                )
+            }
+            composable(NavRoutes.REGISTER) {
+                RegistrationScreen(
+                    onRegistrationSuccess = { /* Handled by LaunchedEffect */ },
+                    onNavigateToLogin = {
+                        navController.navigate(NavRoutes.LOGIN) {
+                            popUpTo(NavRoutes.REGISTER) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                )
+            }
+            composable(NavRoutes.HOME) {
+                HomeScreen(
+                    navController = navController,
+                    onSignOut = {
+                        firebaseAuth.signOut()
+                    }
+                )
+            }
+            composable(NavRoutes.TEST_SCREEN) {
+                TestScreen(navController = navController)
+            }
+            composable(NavRoutes.MINI_GAME_SCREEN) {
+                MiniGameScreen(navController = navController)
             }
         }
     }
