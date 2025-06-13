@@ -42,7 +42,7 @@ private fun handleRegistration(
     onRegistrationSuccess: () -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
-        Toast.makeText(context, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Логин и пароль не могут быть пустыми.", Toast.LENGTH_SHORT).show()
         return
     }
     onLoadingChange(true)
@@ -50,14 +50,14 @@ private fun handleRegistration(
         .addOnCompleteListener { task ->
             onLoadingChange(false)
             if (task.isSuccessful) {
-                Toast.makeText(context, "Registration Successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Регистрация успешна!", Toast.LENGTH_SHORT).show()
                 onRegistrationSuccess()
             } else {
                 val exception = task.exception
                 val errorMessage = when (exception) {
-                    is FirebaseAuthWeakPasswordException -> "Password is too weak. Please choose a stronger password."
-                    is FirebaseAuthUserCollisionException -> "This email is already in use. Please login or use a different email."
-                    else -> "Registration failed: ${exception?.message ?: "Unknown error"}"
+                    is FirebaseAuthWeakPasswordException -> "Пароль слишком слабый. Пожалуйста, выберите более сильный пароль."
+                    is FirebaseAuthUserCollisionException -> "Эта учетная запись уже существует. Пожалуйста, используйте другой адрес электронной почты."
+                    else -> "Ошибка регистрации: ${exception?.message ?: "Неизвестная ошибка"}"
                 }
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
             }
@@ -83,7 +83,7 @@ fun RegistrationScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Register", style = MaterialTheme.typography.headlineMedium)
+        Text("Зарегистрироваться ", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -98,7 +98,7 @@ fun RegistrationScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Пароль") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -122,13 +122,13 @@ fun RegistrationScreen(
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary)
             } else {
-                Text("Register")
+                Text("Регистрация")
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Already have an account? Login",
+            text = "Уже зарегистрированы? Войти",
             modifier = Modifier.clickable { onNavigateToLogin() },
             color = MaterialTheme.colorScheme.primary
         )

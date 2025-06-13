@@ -41,23 +41,23 @@ abstract class AppDatabase : RoomDatabase() {
                     val questionDao = database.questionDao()
                     questionDao.insertQuestion(
                         Question(
-                            url = "http://fakebank.com",
+                            url = "http://sbebrbank.com",
                             isSecure = false,
-                            explanation = "HTTP небезопасен, нет SSL-сертификата. Злоумышленник может перехватить ваши данные."
+                            explanation = "HTTP небезопасен, нет SSL-сертификата. Злоумышленник может перехватить ваши данные. Домен 'sbebrbank.com' может быть фишинговым, даже если кажется похожим на настоящий сайт."
                         )
                     )
                     questionDao.insertQuestion(
                         Question(
-                            url = "https://securebank.com",
+                            url = "https://online.sberbank.ru",
                             isSecure = true,
                             explanation = "HTTPS использует SSL/TLS для шифрования соединения, это безопасно. Всегда проверяйте наличие 'https://'."
                         )
                     )
                     questionDao.insertQuestion(
                         Question(
-                            url = "http://support.example.net/reset-password",
+                            url = "http://support.tbank.net/reset-password",
                             isSecure = false,
-                            explanation = "URL содержит 'http' вместо 'https', что делает его небезопасным. Также, доменное имя 'example.net' может быть фишинговым, даже если кажется похожим на настоящий домен."
+                            explanation = "URL содержит 'http' вместо 'https', что делает его небезопасным. Также, доменное имя 'tbank.net' может быть фишинговым, даже если кажется похожим на настоящий домен."
                         )
                     )
                     questionDao.insertQuestion(

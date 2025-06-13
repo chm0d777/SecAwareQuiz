@@ -11,18 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
-// Assuming a simple theme name that would be defined in res/values/themes.xml or styles.xml
-// For a real project, this would align with the theme in AndroidManifest.xml
-// For now, using a generic MaterialTheme
-// import com.example.myapplication.ui.theme.MyApplicationTheme // Placeholder for actual theme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Using MaterialTheme directly; in a real app, this would be a custom theme
             MaterialTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -37,7 +31,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = "Привет, $name!",
         modifier = modifier
     )
 }

@@ -60,15 +60,13 @@ class MainActivity : ComponentActivity() {
                         launchSingleTop = true
                     }
                 }
-            } else { // User is not null
+            } else {
                 if (currentRoute == NavRoutes.LOGIN || currentRoute == NavRoutes.REGISTER) {
                     navController.navigate(NavRoutes.HOME) {
                         popUpTo(currentRoute) { inclusive = true }
                         launchSingleTop = true
                     }
                 } else if (currentRoute == null && startDestination == NavRoutes.LOGIN) {
-                    // This condition handles the case where the app starts, startDestination is LOGIN,
-                    // but a user is already authenticated (e.g. app was closed and reopened).
                     navController.navigate(NavRoutes.HOME) {
                         popUpTo(navController.graph.startDestinationId) { inclusive = true }
                         launchSingleTop = true
@@ -80,13 +78,13 @@ class MainActivity : ComponentActivity() {
         NavHost(navController = navController, startDestination = startDestination) {
             composable(NavRoutes.LOGIN) {
                 LoginScreen(
-                    onLoginSuccess = { /* Handled by LaunchedEffect */ },
+                    onLoginSuccess = {  },
                     onNavigateToRegister = { navController.navigate(NavRoutes.REGISTER) }
                 )
             }
             composable(NavRoutes.REGISTER) {
                 RegistrationScreen(
-                    onRegistrationSuccess = { /* Handled by LaunchedEffect */ },
+                    onRegistrationSuccess = {  },
                     onNavigateToLogin = {
                         navController.navigate(NavRoutes.LOGIN) {
                             popUpTo(NavRoutes.REGISTER) { inclusive = true }

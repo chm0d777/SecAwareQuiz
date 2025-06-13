@@ -30,12 +30,12 @@ fun HomeScreen(navController: NavController, onSignOut: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (currentUser != null) {
-            Text("Welcome!", style = MaterialTheme.typography.headlineSmall)
+            Text("Добро пожаловать, ${currentUser.displayName}!", style = MaterialTheme.typography.headlineSmall)
             Text("UID: ${currentUser.uid}", style = MaterialTheme.typography.bodySmall)
             Text("Email: ${currentUser.email ?: "N/A"}", style = MaterialTheme.typography.bodySmall)
             Spacer(modifier = Modifier.height(24.dp))
         } else {
-            Text("Welcome to Home Screen!", style = MaterialTheme.typography.headlineSmall)
+            Text("Домашняя страница", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(24.dp))
         }
 
@@ -43,7 +43,7 @@ fun HomeScreen(navController: NavController, onSignOut: () -> Unit) {
             onClick = { navController.navigate(NavRoutes.TEST_SCREEN) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Start Test")
+            Text("Начать тест")
         }
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -51,7 +51,7 @@ fun HomeScreen(navController: NavController, onSignOut: () -> Unit) {
             onClick = { navController.navigate(NavRoutes.MINI_GAME_SCREEN) },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Play Mini-Game")
+            Text("Начать мини-игру")
         }
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -59,7 +59,7 @@ fun HomeScreen(navController: NavController, onSignOut: () -> Unit) {
             onClick = onSignOut,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Sign Out")
+            Text("Выйти")
         }
     }
 }

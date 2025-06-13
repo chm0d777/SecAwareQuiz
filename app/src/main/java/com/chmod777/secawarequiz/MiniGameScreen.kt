@@ -39,39 +39,40 @@ import com.chmod777.secawarequiz.data.GameItem
 val sampleGameItems = listOf(
     GameItem(
         id = 1,
-        scenario = "Email Subject: Urgent Account Verification Required!\n\nDear Valued Customer,\nWe detected suspicious activity on your account. Please click here to verify your details: [link to sketchywebsite.com]",
+        scenario = "Тема письма: Срочное подтверждение аккаунта!\n\nУважаемый клиент,\nМы обнаружили подозрительную активность в вашем аккаунте. Пожалуйста, нажмите здесь, чтобы подтвердить свои данные: [ссылка на sketchywebsite.com]"
+
         options = listOf(
-            "Generic greeting ('Dear Valued Customer')",
-            "Sense of urgency",
-            "Suspicious link URL",
-            "All of the above"
+            "Официальное обращение от компании", ('Уважаемый клиент')",
+            "Создаёт ощущение срочности",
+            "Подозрительный URL-адрес",
+            "Всё вышеперечисленное"
         ),
         correctOptionIndex = 3,
-        explanation = "All listed items are common phishing indicators: generic greetings, urgent language, and suspicious URLs often not matching the supposed sender."
+        explanation = "Все перечисленные элементы являются распространенными признаками фишинга: общие приветствия, срочные формулировки и подозрительные URL-адреса, часто не соответствующие предполагаемому отправителю."
     ),
     GameItem(
         id = 2,
-        scenario = "SMS: 'Your package from FedEX has a pending delivery. Please update your shipping address here: [bit.ly/fedex-update123] to avoid delays. A small fee of $1.99 is required.'",
+        scenario = "SMS: 'Ваша посылка от Почты России ожидает доставки. Пожалуйста, обновите ваш адрес доставки здесь: [bit.ly/pochta-update123], чтобы избежать задержек. Требуется небольшая плата в размере 199 рублей.'",
         options = listOf(
-            "Request for a small fee for redelivery",
-            "Use of a URL shortener (bit.ly)",
-            "Reference to a well-known company (FedEX)",
-            "Both A and B"
+            "Запрос небольшой платы за повторную доставку",
+            "Использование сокращённой ссылки (bit.ly)",
+            "Упоминание известной компании (Почта России)",
+            "A и B"
         ),
         correctOptionIndex = 3,
-        explanation = "Unexpected requests for small fees and the use of URL shorteners to obscure the real destination are common in SMS phishing (smishing)."
+        explanation = "Неожиданные запросы небольших платежей и использование сокращённых ссылок для сокрытия реального адреса часто встречаются в SMS-фишинге."
     ),
     GameItem(
         id = 3,
-        scenario = "Email from: 'yourbank-security@notification-center.com'\nBody: 'Your account has been locked due to too many failed login attempts. Click to unlock: [yourbank.com.security-alert.net/unlock]'",
+        scenario = "Email от: 'ozon-security@notification-center.com'\nТело письма: 'Ваш аккаунт был заблокирован из-за слишком большого количества неудачных попыток входа. Нажмите для разблокировки: [ozon.com.security-alert.net/unlock]'",
         options = listOf(
-            "Email address seems legitimate.",
-            "The link URL, while containing 'yourbank.com', has extra subdomains making it suspicious.",
-            "The email informs about a security issue.",
-            "The scenario is too common to be a phishing attempt."
+            "Адрес электронной почты похож на официальный.",
+            "URL ссылки, хотя и содержит 'ozon.com', имеет дополнительные поддомены, что делает её подозрительной.",
+            "Письмо сообщает о проблеме безопасности.",
+            "Сценарий слишком распространён, чтобы быть фишинговой атакой."
         ),
         correctOptionIndex = 1,
-        explanation = "Phishers often create URLs that look legitimate at first glance but use misleading subdomains. 'yourbank.com.security-alert.net' is not the bank's actual domain."
+        explanation = "Мошенники часто создают URL-адреса, которые сначала кажутся легитимными, но используют вводящие в заблуждение поддомены. 'ozon.com.security-alert.net' — это не настоящий домен Ozon."
     )
 )
 
@@ -181,11 +182,11 @@ fun MiniGameScreen(navController: NavController) {
                     enabled = selectedOptionIndex != -1 || answerSubmitted,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(if (answerSubmitted) "Next Scenario" else "Check Answer")
+                    Text(if (answerSubmitted) "Следующий сценарий" else "Проверить ответ")
                 }
 
             } else {
-                Text("Loading game or game finished unexpectedly.")
+                Text("Загрузка игры завершилась неожиданно. Пожалуйста, попробуйте ещё раз.")
             }
         }
     }

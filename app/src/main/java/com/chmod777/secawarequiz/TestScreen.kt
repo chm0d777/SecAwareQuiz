@@ -46,51 +46,51 @@ import com.chmod777.secawarequiz.data.Question
 val sampleQuestions = listOf(
     Question(
         id = 1,
-        text = "What is a common sign of a phishing email?",
+        text = "Что является распространенным признаком фишингового письма?",
         options = listOf(
-            "An urgent request for personal information.",
-            "A generic greeting like 'Dear Customer'.",
-            "Spelling and grammar mistakes.",
-            "All of the above."
+            "Срочный запрос личной информации",
+            "Обычное приветствие типа 'Уважаемый клиент'",
+            "Орфографические и грамматические ошибки",
+            "Все вышеперечисленное".
         ),
         correctAnswerIndex = 3,
-        explanation = "Phishing emails often try to create a sense of urgency, use generic greetings, and contain errors."
+        explanation = "Фишинговые электронные письма часто пытаются создать ощущение срочности, используют общие приветствия и содержат ошибки."
     ),
     Question(
         id = 2,
-        text = "Which of the following is the strongest password?",
+        text = "Какой из перечисленных ниже паролей является наиболее надежным?",
         options = listOf(
             "password123",
             "MyBirthDay1990!",
             "Tr0ub4dor&3",
-            "johnsmith"
+            "qwertyuiop"
         ),
         correctAnswerIndex = 2,
-        explanation = "'Tr0ub4dor&3' is the strongest as it includes a mix of uppercase, lowercase, numbers, and symbols, and is not easily guessable."
+        explanation = "'Tr0ub4dor&3' самый надежный, так как содержит различные символы и сочетания букв и цифр."
     ),
     Question(
         id = 3,
-        text = "What does HTTPS in a website URL indicate?",
+        text = "Что означает HTTPS в URL-адресе веб-сайта?",
         options = listOf(
-            "The website is 100% secure from all threats.",
-            "The website has a fast connection.",
-            "The connection between your browser and the website is encrypted.",
-            "The website is hosted in the United States."
+            "Веб-сайт на 100% защищен от всех угроз.",
+            "Веб-сайт имеет быстрое соединение.",
+            "Соединение между вашим браузером и веб-сайтом зашифровано.",
+            "Веб-сайт размещен в Соединенных Штатах."
         ),
         correctAnswerIndex = 2,
-        explanation = "HTTPS indicates that the data transferred between your browser and the website is encrypted, making it more secure than HTTP."
+        explanation = "HTTPS означает, что данные, передаваемые между вашим браузером и веб-сайтом, зашифрованы, что делает их более безопасными, чем HTTP."
     ),
     Question(
         id = 4,
-        text = "What should you do if you receive a suspicious email asking for your bank details?",
+        text = "Что вам следует делать, если вы получили подозрительное электронное письмо с запросом ваших банковских реквизитов?",
         options = listOf(
-            "Reply with your details immediately.",
-            "Click on any links to see where they go.",
-            "Delete the email and do not respond or click any links.",
-            "Call the phone number provided in the email to verify."
+            "Немедленно сообщить свои данные.",
+            "Кликнуть по ссылке чтобы посмотреть что там.",
+            "Удалить письмо и не отвечать на него.",
+            "Позвонить по номеру телефона, указанному в электронном письме, для подтверждения."
         ),
         correctAnswerIndex = 2,
-        explanation = "Never provide personal details via email or click suspicious links. Contact your bank directly through their official website or phone number if you are concerned."
+        explanation = "Никогда не сообщайте личные данные по электронной почте и не переходите по подозрительным ссылкам. Если вас это беспокоит, свяжитесь со своим банком напрямую через его официальный веб-сайт или по номеру телефона."
     )
 )
 
@@ -108,16 +108,16 @@ private fun handleSubmitOrNext(
     onShowResult: () -> Unit
 ) {
     if (selectedOptionIndex == -1 && !answerSubmitted) {
-        Toast.makeText(context, "Please select an option.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Выберите нужный вариант.", Toast.LENGTH_SHORT).show()
         return
     }
 
     if (!answerSubmitted) {
         if (selectedOptionIndex == currentQuestion.correctAnswerIndex) {
             onScoreUpdate(score + 1)
-            Toast.makeText(context, "Correct!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Правильно!", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "Incorrect. The correct answer was: ${currentQuestion.options[currentQuestion.correctAnswerIndex]}", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Неправильный. Правильным ответом было: ${currentQuestion.options[currentQuestion.correctAnswerIndex]}", Toast.LENGTH_LONG).show()
         }
         onAnswerSubmittedUpdate(true)
     } else {
@@ -145,7 +145,7 @@ fun TestScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Cybersecurity Test") },
+                title = { Text("Тест по безопасности в интернете") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -199,10 +199,10 @@ fun TestScreen(navController: NavController) {
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(if (answerSubmitted) "Next Question" else "Submit Answer")
+                    Text(if (answerSubmitted) "Следующий вопрос" else "Подтвердить ответ")
                 }
             } else {
-                Text("Loading questions or test finished unexpectedly.")
+                Text("Загрузка вопросов или тестов закончилась с ошибкой.")
             }
         }
     }
@@ -247,7 +247,7 @@ fun QuestionDisplay(
             if (answerSubmitted) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Explanation: ${question.explanation}",
+                    text = "Объяснение:: ${question.explanation}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -263,12 +263,12 @@ fun TestResults(score: Int, totalQuestions: Int, onRetakeTest: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Test Finished!", style = MaterialTheme.typography.headlineMedium)
+        Text("Тест завершён!", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Your score: $score out of $totalQuestions", style = MaterialTheme.typography.titleLarge)
+        Text("Ваш результат: $score из $totalQuestions", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = onRetakeTest, modifier = Modifier.fillMaxWidth()) {
-            Text("Retake Test")
+            Text("Пройти заново")
         }
     }
 }

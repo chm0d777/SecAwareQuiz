@@ -42,7 +42,7 @@ private fun handleLogin(
     onLoginSuccess: () -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
-        Toast.makeText(context, "Email and password cannot be empty.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Почта и пароль должны быть заполнены", Toast.LENGTH_SHORT).show()
         return
     }
     onLoadingChange(true)
@@ -50,14 +50,14 @@ private fun handleLogin(
         .addOnCompleteListener { task ->
             onLoadingChange(false)
             if (task.isSuccessful) {
-                Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Вход выполнен успешно", Toast.LENGTH_SHORT).show()
                 onLoginSuccess()
             } else {
                 val exception = task.exception
                 val errorMessage = when (exception) {
-                    is FirebaseAuthInvalidUserException -> "User not found. Please register."
-                    is FirebaseAuthInvalidCredentialsException -> "Invalid password. Please try again."
-                    else -> "Login failed: ${exception?.message ?: "Unknown error"}"
+                    is FirebaseAuthInvalidUserException -> "Пользователь не найден. Пожалуйста, проверьте адрес электронной почты."
+                    is FirebaseAuthInvalidCredentialsException -> "Неверный пароль. Пожалуйста, проверьте пароль."
+                    else -> "Вход не выполнен:: ${exception?.message ?: "Пожалуйста, попробуйте позже."}"
                 }
                 Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
             }
@@ -83,7 +83,7 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Login", style = MaterialTheme.typography.headlineMedium)
+        Text("Логин", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -98,7 +98,7 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Пароль") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
             singleLine = true
@@ -122,13 +122,13 @@ fun LoginScreen(
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary)
             } else {
-                Text("Login")
+                Text("Логин")
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Don't have an account? Register",
+            text = "Нет аккаунта? Зарегистрироваться",
             modifier = Modifier.clickable { onNavigateToRegister() },
             color = MaterialTheme.colorScheme.primary
         )
