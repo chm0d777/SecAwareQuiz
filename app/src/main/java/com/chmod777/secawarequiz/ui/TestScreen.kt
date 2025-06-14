@@ -25,11 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.chmod777.secawarequiz.ui.TestViewModel
 
 @Composable
 fun TestScreen(
-    navController: NavController,
+    navController: NavHostController,
     testViewModel: TestViewModel = viewModel(),
     questionId: Int
 ) {
@@ -61,7 +62,7 @@ fun TestScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Является ли этот URL безопасным?",
+                        text = "Этот URL безопасен?",
                         style = MaterialTheme.typography.headlineSmall,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 16.dp)

@@ -3,7 +3,7 @@ package com.chmod777.secawarequiz.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.chmod777.secawarequiz.data.Question
+import com.chmod777.secawarequiz.data.UrlCheckQuestion
 import com.chmod777.secawarequiz.data.QuestionDao
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 
 class TestViewModel(private val questionDao: QuestionDao) : ViewModel() {
 
-    private val _currentQuestion = MutableStateFlow<Question?>(null)
-    val currentQuestion: StateFlow<Question?> = _currentQuestion.asStateFlow()
+    private val _currentQuestion = MutableStateFlow<UrlCheckQuestion?>(null)
+    val currentQuestion: StateFlow<UrlCheckQuestion?> = _currentQuestion.asStateFlow()
 
     private val _answerGiven = MutableStateFlow(false)
     val answerGiven: StateFlow<Boolean> = _answerGiven.asStateFlow()
@@ -24,8 +24,8 @@ class TestViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private val _explanationText = MutableStateFlow("")
     val explanationText: StateFlow<String> = _explanationText.asStateFlow()
 
-    private val _allQuestions = MutableStateFlow<List<Question>>(emptyList())
-    private val allQuestions: StateFlow<List<Question>> = _allQuestions.asStateFlow()
+    private val _allQuestions = MutableStateFlow<List<UrlCheckQuestion>>(emptyList())
+    private val allQuestions: StateFlow<List<UrlCheckQuestion>> = _allQuestions.asStateFlow()
 
     private var questionIndex: Int = 0
 

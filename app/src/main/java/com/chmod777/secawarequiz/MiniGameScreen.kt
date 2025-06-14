@@ -32,17 +32,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chmod777.secawarequiz.data.GameItem
+import com.chmod777.secawarequiz.navigation.NavRoutes
 
 val sampleGameItems = listOf(
     GameItem(
         id = 1,
-        scenario = "Тема письма: Срочное подтверждение аккаунта!\n\nУважаемый клиент,\nМы обнаружили подозрительную активность в вашем аккаунте. Пожалуйста, нажмите здесь, чтобы подтвердить свои данные: [ссылка на sketchywebsite.com]"
-
+        scenario = "Тема письма: Срочное подтверждение аккаунта!\n\nУважаемый клиент,\nМы обнаружили подозрительную активность в вашем аккаунте. Пожалуйста, нажмите здесь, чтобы подтвердить свои данные: [ссылка на sketchywebsite.com]",
         options = listOf(
-            "Официальное обращение от компании", ('Уважаемый клиент')",
+            "Официальное обращение от компании ('Уважаемый клиент')",
             "Создаёт ощущение срочности",
             "Подозрительный URL-адрес",
             "Всё вышеперечисленное"
@@ -106,7 +106,7 @@ private fun handleGameAction(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MiniGameScreen(navController: NavController) {
+fun MiniGameScreen(navController: NavHostController) {
     var currentItemIndex by rememberSaveable { mutableIntStateOf(0) }
     var selectedOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
     var score by rememberSaveable { mutableIntStateOf(0) }
@@ -251,12 +251,12 @@ fun GameResults(score: Int, totalItems: Int, onPlayAgain: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Mini-Game Completed!", style = MaterialTheme.typography.headlineMedium)
+        Text("Мини игра завершена!", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Your score: $score out of $totalItems indicators identified correctly.", style = MaterialTheme.typography.titleLarge)
+        Text("Ваш счёт: $score из $totalItems корректных ответов.", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = onPlayAgain, modifier = Modifier.fillMaxWidth()) {
-            Text("Play Again")
+            Text("Сыграть ещё раз")
         }
     }
 }

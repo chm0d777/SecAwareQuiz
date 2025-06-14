@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.chmod777.secawarequiz.navigation.NavRoutes
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -40,7 +41,7 @@ fun HomeScreen(navController: NavController, onSignOut: () -> Unit) {
         }
 
         Button(
-            onClick = { navController.navigate(NavRoutes.TEST_SCREEN) },
+            onClick = { navController.navigate(NavRoutes.testScreen(1)) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Начать тест")

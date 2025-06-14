@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.0"
-kotlin = "2.0.21"
+kotlin = "1.9.22"
 coreKtx = "1.10.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -12,6 +12,9 @@ googleGmsServicesVersion = "4.4.2" # Task: Add Google Services plugin
 materialVersion = "1.12.0" # Task: Add Material Design components library dependency: com.google.android.material:material:1.12.0
 firebaseBomVersion = "33.1.1" # Task: Add Firebase BOM dependency: com.google.firebase:firebase-bom:33.1.1
 # firebaseAuthVersion and firebaseAnalyticsVersion are managed by the BOM
+ksp = "1.9.22-1.0.17"
+room = "2.6.1"
+navigationCompose = "2.7.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,9 +35,15 @@ google-android-material = { group = "com.google.android.material", name = "mater
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" } # Task: Add Firebase Auth KTX
 firebase-analytics-ktx = { group = "com.google.firebase", name = "firebase-analytics-ktx" } # Common companion
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
 google-gms-services = { id = "com.google.gms.google-services", version.ref = "googleGmsServicesVersion" } # Task: Add Google Services plugin
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

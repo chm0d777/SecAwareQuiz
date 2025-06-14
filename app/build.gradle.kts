@@ -1,12 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.services)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
     namespace = "com.chmod777.secawarequiz"
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
+    }
     compileSdk = 35
 
     defaultConfig {
@@ -52,10 +55,14 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.google.android.material)
 
-    // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth.ktx)      // Explicitly using -ktx as per subtask
-    implementation(libs.firebase.analytics.ktx) // Explicitly using -ktx for consistency
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.analytics.ktx)
+
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
