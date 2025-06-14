@@ -37,8 +37,8 @@ class QuizViewModel(
             _uiState.value = _uiState.value.copy(isLoading = true)
             delay(500)
             allQuestions = listOf(
-                QuizQuestion("q1", "What is malware?", listOf(QuizOption("o1_1", "Friendly software"), QuizOption("o1_2", "Malicious software")), "o1_2", "Malware is software designed to harm your computer."),
-                QuizQuestion("q2", "What does HTTPS stand for?", listOf(QuizOption("o2_1", "HyperText Transfer Protocol Secure"), QuizOption("o2_2", "HyperText Transfer Protocol Standard")), "o2_1", "HTTPS encrypts data between your browser and the website.")
+                QuizQuestion("q1", "Что такое малварь?", listOf(QuizOption("o1_1", "Нормальный софт"), QuizOption("o1_2", "Вредоносное софт")), "o1_2", "Малварь это любой тип вредоносного программного обеспечения, которое может нанести вред компьютеру, сети или пользователям."),
+                QuizQuestion("q2", "Зачем нужен протокол HTTPS?", listOf(QuizOption("o2_1", "HyperText Transfer Protocol Secure"), QuizOption("o2_2", "HyperText Transfer Protocol Standard")), "o2_1", "HTTPS шифрует все передаваемые данные, что делает его безопасным от прослушивания."),
             )
             if (allQuestions.isNotEmpty()) {
                 _uiState.value = _uiState.value.copy(

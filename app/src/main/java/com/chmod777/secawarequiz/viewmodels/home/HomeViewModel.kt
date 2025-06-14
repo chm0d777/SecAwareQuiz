@@ -34,9 +34,9 @@ class HomeViewModel : ViewModel() {
                 isLoading = false,
                 userName = "SecAware User",
                 quizList = listOf(
-                    HomeItem("q101", "Phishing Basics", "Learn to spot phishing emails."),
-                    HomeItem("q102", "Strong Passwords", "Create and manage secure passwords."),
-                    HomeItem("m201", "Identify the Scam (Minigame)", "Spot the fake website before time runs out!")
+                    HomeItem("q101", "Фишинг", "Научись отличать фишинговые письма"),
+                    HomeItem("q102", "Сильные пароли", "Создавать и хранить сильные пароли"),
+                    HomeItem("m201", "Найди паль (миниигра)", "Найди фейковый сайт за определённое время"),
                 )
             )
         }

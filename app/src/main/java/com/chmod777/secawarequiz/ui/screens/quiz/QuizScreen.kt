@@ -42,23 +42,18 @@ data class QuizScreenState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(
-    // state: QuizScreenState,
-    // onOptionSelected: (optionId: String) -> Unit,
-    // onSubmitAnswer: () -> Unit,
-    // onNextQuestion: () -> Unit,
-    // onBackClicked: () -> Unit
 ) {
     val dummyQuestion = QuizQuestion(
         id = "q1",
-        text = "Какова основная цель двухфакторной аутентификации (2FA)?",
+        text = "What is the primary purpose of two-factor authentication (2FA)?",
         options = listOf(
-            QuizOption("opt1", "Чтобы сделать пароли длиннее и сложнее."),
-            QuizOption("opt2", "Чтобы добавить дополнительный уровень безопасности, кроме самого пароля."),
-            QuizOption("opt3", "Чтобы зашифровать интернет-соединение."),
-            QuizOption("opt4", "Чтобы ускорить процесс входа в систему.")
+            QuizOption("opt1", "To make passwords longer and more complex."),
+            QuizOption("opt2", "To add an extra layer of security beyond just a password."),
+            QuizOption("opt3", "To encrypt your internet connection."),
+            QuizOption("opt4", "To speed up the login process.")
         ),
         correctAnswerId = "opt2",
-        explanation = "2FA добавляет второй этап проверки, например, ввод кода с вашего телефона, что затрудняет злоумышленникам получение доступа, даже если у них есть ваш пароль."
+        explanation = "2FA adds a second verification step, such as a code from your phone, making it harder for attackers to gain access even if they have your password."
     )
     val state = QuizScreenState(
         currentQuestion = dummyQuestion,
@@ -78,13 +73,13 @@ fun QuizScreen(
             TopAppBar(
                 title = {
                     Text(
-                        if (state.isQuizOver) "Результаты"
+                        if (state.isQuizOver) "Quiz Results"
                         else "Question ${state.currentQuestionIndex + 1}/${state.totalQuestions}"
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* onBackClicked() */ }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Назад")
+                    IconButton(onClick = { }) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -98,8 +93,8 @@ fun QuizScreen(
             QuizResultsContent(
                 score = state.score,
                 totalQuestions = state.totalQuestions,
-                onPlayAgain = { /* onNextQuestion() */ },
-                onBackToHome = { /* onBackClicked() */ },
+                onPlayAgain = { },
+                onBackToHome = { },
                 modifier = Modifier.padding(paddingValues)
             )
         } else if (state.currentQuestion != null) {
@@ -109,21 +104,19 @@ fun QuizScreen(
                 onOptionSelected = { optionId ->
                     if (!state.isAnswerSubmitted) {
                         selectedOptionIdInternal = optionId
-                        // onOptionSelected(optionId)
                     }
                 },
                 isAnswerSubmitted = state.isAnswerSubmitted,
                 isCorrect = state.isCorrect,
-                onSubmitAnswer = { /* onSubmitAnswer() */ },
+                onSubmitAnswer = { },
                 onNextQuestion = {
                     selectedOptionIdInternal = null
-                    /* onNextQuestion() */
                 },
                 modifier = Modifier.padding(paddingValues)
             )
         } else {
             Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
-                Text("Вопрсоы не найдены или тест завершён.", style = MaterialTheme.typography.bodyLarge)
+                Text("No question loaded or quiz is over.", style = MaterialTheme.typography.bodyLarge)
             }
         }
     }
@@ -217,7 +210,7 @@ fun QuizQuestionContent(
                 if (question.explanation != null && isCorrect != null) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = (if (isCorrect) "Верно! " else "Неверно.") + question.explanation,
+                        text = (if (isCorrect) "Correct! " else "Incorrect. ") + question.explanation,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isCorrect) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(8.dp)
@@ -229,7 +222,7 @@ fun QuizQuestionContent(
                     enabled = selectedOptionId != null,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Подтвердите ответ")
+                    Text("Submit Answer")
                 }
             }
         }
@@ -251,21 +244,21 @@ fun QuizResultsContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Тест завершён!", style = MaterialTheme.typography.headlineMedium)
+        Text("Тест завершен", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Ваш результат: $score / $totalQuestions", style = MaterialTheme.typography.titleLarge)
+        Text("Ваш счёт: $score / $totalQuestions", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onPlayAgain, modifier = Modifier.fillMaxWidth()) {
-            Text("Попробовать снова")
+            Text("Сыграй ещё раз")
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(onClick = onBackToHome, modifier = Modifier.fillMaxWidth()) {
-            Text("Назад к главной странице")
+            Text("Обратно в главное меню")
         }
     }
 }
 
-@Preview(showBackground = true, name = "Вид по умолчанию")
+@Preview(showBackground = true, name = "Показать")
 @Composable
 fun QuizScreenQuestionPreview() {
     SecAwareQuizTheme {
@@ -273,15 +266,15 @@ fun QuizScreenQuestionPreview() {
     }
 }
 
-@Preview(showBackground = true, name = "Вопрос заполнен верно")
+@Preview(showBackground = true, name = "Правильный ответ")
 @Composable
 fun QuizScreenAnswerCorrectPreview() {
     SecAwareQuizTheme {
         val question = QuizQuestion(
-            id = "q1", text = "Что такое фишинг??",
-            options = listOf(QuizOption("opt1", "Option 1"), QuizOption("opt2", "Правильный ответ")),
+            id = "q1", text = "Что такое фишинг?",
+            options = listOf(QuizOption("opt1", "Option 1"), QuizOption("opt2", "Пральна")),
             correctAnswerId = "opt2",
-            explanation = "Объяснение."
+            explanation = "объясняю."
         )
         QuizScreen()
     }

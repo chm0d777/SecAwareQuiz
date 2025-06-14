@@ -1,12 +1,14 @@
 package com.chmod777.secawarequiz.viewmodels.auth
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import android.content.Context
+import com.chmod777.secawarequiz.R
 
 data class RegistrationUiState(
     val isLoading: Boolean = false,
@@ -19,30 +21,44 @@ class RegistrationViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(RegistrationUiState())
     val uiState: StateFlow<RegistrationUiState> = _uiState.asStateFlow()
 
-    fun onRegisterClicked(email: String, pass: String, confirmPass: String) {
+    private val firebaseAuth = FirebaseAuth.getInstance()
+
+    fun onRegisterClicked(context: Context, email: String, pass: String, confirmPass: String) {
         if (email.isBlank() || pass.isBlank() || confirmPass.isBlank()) {
-            _uiState.value = _uiState.value.copy(error = "All fields are required.")
+            _uiState.value = _uiState.value.copy(error = context.getString(R.string.error_all_fields_required))
             return
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _uiState.value = _uiState.value.copy(error = "Invalid email format.")
+            _uiState.value = _uiState.value.copy(error = context.getString(R.string.error_invalid_email_format))
             return
         }
         if (pass.length < 6) {
-            _uiState.value = _uiState.value.copy(error = "Password must be at least 6 characters.")
+            _uiState.value = _uiState.value.copy(error = context.getString(R.string.error_password_length))
             return
         }
         if (pass != confirmPass) {
-            _uiState.value = _uiState.value.copy(error = "Passwords do not match.")
+            _uiState.value = _uiState.value.copy(error = context.getString(R.string.error_passwords_do_not_match))
             return
         }
 
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
 
-        viewModelScope.launch {
-            delay(1500)
-            _uiState.value = _uiState.value.copy(isLoading = false, registrationSuccess = true, error = null)
-        }
+        firebaseAuth.createUserWithEmailAndPassword(email, pass)
+            .addOnCompleteListener { task ->
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                if (task.isSuccessful) {
+                    _uiState.value = _uiState.value.copy(registrationSuccess = true, error = null)
+                } else {
+                    val exception = task.exception
+                    val errorMessage = when (exception) {
+                        is FirebaseAuthWeakPasswordException -> context.getString(R.string.error_weak_password)
+                        is FirebaseAuthUserCollisionException -> context.getString(R.string.error_user_collision)
+                        else -> exception?.message ?: context.getString(R.string.error_unknown_registration)
+                    }
+                    _uiState.value =
+                        _uiState.value.copy(error = errorMessage, registrationSuccess = false)
+                }
+            }
     }
 
     fun onRegistrationSuccessNavigationConsumed() {

@@ -17,14 +17,13 @@ import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Minigame1Screen(
-    // onBackClicked: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Minigame 1") },
+                title = { Text("Мини игра 1") },
                 navigationIcon = {
-                    IconButton(onClick = { /* onBackClicked() */ }) {
+                    IconButton(onClick = { }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
@@ -39,7 +38,7 @@ fun Minigame1Screen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Minigame 1 Content - Coming Soon!", style = MaterialTheme.typography.bodyLarge)
+            Text("Миниигра 1 скоро добавлю", style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

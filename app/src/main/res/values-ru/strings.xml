@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">SecAwareQuiz</string>
+
+    <!-- Login Screen -->
+    <string name="login_scaffold_title">Вход - SecAwareQuiz</string>
+    <string name="login_heading">С возвращением!</string>
+    <string name="email_label">Адрес электронной почты</string>
+    <string name="password_label">Пароль</string>
+    <string name="login_button_text">Войти</string>
+    <string name="login_to_register_link_text">Нет аккаунта? Зарегистрируйтесь</string>
+
+    <!-- Registration Screen -->
+    <string name="registration_scaffold_title">Регистрация - SecAwareQuiz</string>
+    <string name="registration_heading">Создать аккаунт</string>
+    <string name="confirm_password_label">Подтвердите пароль</string>
+    <string name="register_button_text">Зарегистрироваться</string>
+    <string name="registration_to_login_link_text">Уже есть аккаунт? Войдите</string>
+
+    <!-- ViewModel Error Messages (Static parts) -->
+    <string name="error_all_fields_required">Все поля обязательны для заполнения.</string>
+    <string name="error_invalid_email_format">Неверный формат электронной почты.</string>
+    <string name="error_password_length">Пароль должен содержать не менее 6 символов.</string>
+    <string name="error_passwords_do_not_match">Пароли не совпадают.</string>
+    <string name="error_email_password_empty">Электронная почта и пароль не могут быть пустыми.</string>
+    <string name="error_weak_password">Пароль слишком слабый.</string>
+    <string name="error_user_collision">Аккаунт с такой электронной почтой уже существует.</string>
+    <string name="error_unknown_registration">Неизвестная ошибка регистрации</string>
+    <string name="error_no_account_found">Аккаунт с такой электронной почтой не найден.</string>
+    <string name="error_incorrect_password">Неверный пароль. Пожалуйста, попробуйте еще раз.</string>
+    <string name="error_unknown_login">Неизвестная ошибка входа.</string>
+</resources>

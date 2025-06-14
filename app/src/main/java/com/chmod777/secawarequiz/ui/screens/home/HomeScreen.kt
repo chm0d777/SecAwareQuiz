@@ -27,7 +27,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Домашняя страница") })
+            TopAppBar(title = { Text("SecAware Quiz Home") })
         }
     ) { paddingValues ->
         Column(
@@ -38,7 +38,7 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Контент", style = MaterialTheme.typography.bodyLarge)
+            Text("Home Screen Content", style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

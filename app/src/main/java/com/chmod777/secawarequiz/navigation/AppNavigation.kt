@@ -23,7 +23,6 @@ sealed class Screen(val route: String) {
         fun createRoute(quizId: Int) = NavRoutes.testScreen(quizId)
     }
     object Minigame1 : Screen(NavRoutes.MINI_GAME_SCREEN)
-    // object Minigame2 : Screen("minigame2") // Minigame2Screen.kt does not exist
 }
 
 @Composable
@@ -55,7 +54,7 @@ fun AppNavigation(
         }
 
         composable(
-            route = Screen.Quiz.route, // Uses NavRoutes.TEST_SCREEN
+            route = Screen.Quiz.route,
             arguments = listOf(navArgument("quizId") { type = NavType.IntType })
         ) { backStackEntry ->
             val quizId = backStackEntry.arguments?.getInt("quizId")
@@ -66,13 +65,9 @@ fun AppNavigation(
             }
         }
 
-        composable(Screen.Minigame1.route) { // Uses NavRoutes.MINI_GAME_SCREEN
+        composable(Screen.Minigame1.route) {
             MiniGameScreen(navController = navController)
         }
 
-        // composable(Screen.Minigame2.route) {
-        //     // Minigame2Screen()
-        //     Text("Minigame 2")
-        // }
     }
 }

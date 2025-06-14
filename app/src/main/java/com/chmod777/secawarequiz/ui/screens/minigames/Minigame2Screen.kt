@@ -22,7 +22,7 @@ fun Minigame2Screen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Minigame 2") },
+                title = { Text("Мини игра 2") },
                 navigationIcon = {
                     IconButton(onClick = { /* onBackClicked() */ }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
@@ -39,7 +39,7 @@ fun Minigame2Screen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text("Minigame 2 Content - Coming Soon!", style = MaterialTheme.typography.bodyLarge)
+            Text("Мини игра 2 скоро будет", style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

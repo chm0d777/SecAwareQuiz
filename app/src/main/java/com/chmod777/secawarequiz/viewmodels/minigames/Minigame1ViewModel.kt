@@ -8,7 +8,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
 data class Minigame1UiState(
     val isLoading: Boolean = false,
     val score: Int = 0,
@@ -31,7 +30,7 @@ class Minigame1ViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(isLoading = true)
         GlobalScope.launch {
             delay(500)
-            _uiState.value = Minigame1UiState(isLoading = false, currentChallenge = "Minigame 1 Ready!", lives = 3, score = 0)
+            _uiState.value = Minigame1UiState(isLoading = false, currentChallenge = "Миниигра 1 готова", lives = 3, score = 0)
         }
     }
 

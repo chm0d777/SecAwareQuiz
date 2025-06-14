@@ -1,3 +1,32 @@
 <resources>
-    <string name="app_name">SecAware Quiz</string>
+    <string name="app_name">SecAwareQuiz</string>
+
+    <!-- вход -->
+    <string name="login_scaffold_title">Login - SecAwareQuiz</string>
+    <string name="login_heading">Welcome Back!</string>
+    <string name="email_label">Email Address</string>
+    <string name="password_label">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_to_register_link_text">Don\'t have an account? Register</string>
+
+    <!-- регистрация -->
+    <string name="registration_scaffold_title">Register - SecAwareQuiz</string>
+    <string name="registration_heading">Create Account</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="register_button_text">Register</string>
+    <string name="registration_to_login_link_text">Already have an account? Login</string>
+
+    <!-- ViewModel ошибки -->
+    <string name="error_all_fields_required">All fields are required.</string>
+    <string name="error_invalid_email_format">Invalid email format.</string>
+    <string name="error_password_length">Password must be at least 6 characters.</string>
+    <string name="error_passwords_do_not_match">Passwords do not match.</string>
+    <string name="error_email_password_empty">Email and password cannot be empty.</string>
+    <string name="error_weak_password">Password is too weak.</string>
+    <string name="error_user_collision">An account already exists with this email.</string>
+    <string name="error_unknown_registration">Unknown registration error</string>
+    <string name="error_no_account_found">No account found with this email.</string>
+    <string name="error_incorrect_password">Incorrect password. Please try again.</string>
+    <string name="error_unknown_login">Unknown login error.</string>
+
 </resources>
