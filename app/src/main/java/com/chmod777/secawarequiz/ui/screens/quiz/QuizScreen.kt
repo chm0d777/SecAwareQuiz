@@ -5,13 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
 
 data class QuizQuestion(
@@ -45,16 +47,17 @@ fun QuizScreen(
 ) {
     val dummyQuestion = QuizQuestion(
         id = "q1",
-        text = "What is the primary purpose of two-factor authentication (2FA)?",
+        text = "Какова основная цель двухфакторной аутентификации (2FA)?",
         options = listOf(
-            QuizOption("opt1", "To make passwords longer and more complex."),
-            QuizOption("opt2", "To add an extra layer of security beyond just a password."),
-            QuizOption("opt3", "To encrypt your internet connection."),
-            QuizOption("opt4", "To speed up the login process.")
+            QuizOption("opt1", "Сделать пароли длиннее и сложнее."),
+            QuizOption("opt2", "Добавить дополнительный уровень безопасности помимо пароля."),
+            QuizOption("opt3", "Зашифровать ваше интернет-соединение."),
+            QuizOption("opt4", "Ускорить процесс входа.")
         ),
         correctAnswerId = "opt2",
-        explanation = "2FA adds a second verification step, such as a code from your phone, making it harder for attackers to gain access even if they have your password."
+        explanation = "2FA добавляет второй этап проверки, например код с вашего телефона, что затрудняет доступ злоумышленникам, даже если у них есть ваш пароль."
     )
+
     val state = QuizScreenState(
         currentQuestion = dummyQuestion,
         selectedOptionId = null,
@@ -73,13 +76,13 @@ fun QuizScreen(
             TopAppBar(
                 title = {
                     Text(
-                        if (state.isQuizOver) "Quiz Results"
-                        else "Question ${state.currentQuestionIndex + 1}/${state.totalQuestions}"
+                        if (state.isQuizOver) stringResource(R.string.quiz_screen_results_title)
+                        else stringResource(R.string.quiz_screen_question_progress_format, state.currentQuestionIndex + 1, state.totalQuestions)
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
                     }
                 }
             )
@@ -116,7 +119,7 @@ fun QuizScreen(
             )
         } else {
             Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
-                Text("No question loaded or quiz is over.", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.quiz_screen_no_question_or_over), style = MaterialTheme.typography.bodyLarge)
             }
         }
     }
@@ -205,12 +208,12 @@ fun QuizQuestionContent(
                     onClick = onNextQuestion,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Next Question")
+                    Text(stringResource(R.string.quiz_screen_next_question_button))
                 }
                 if (question.explanation != null && isCorrect != null) {
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = (if (isCorrect) "Correct! " else "Incorrect. ") + question.explanation,
+                        text = stringResource(if (isCorrect) R.string.quiz_screen_correct_prefix else R.string.quiz_screen_incorrect_prefix) + question.explanation,
                         style = MaterialTheme.typography.bodyMedium,
                         color = if (isCorrect) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
                         modifier = Modifier.padding(8.dp)
@@ -222,7 +225,7 @@ fun QuizQuestionContent(
                     enabled = selectedOptionId != null,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Submit Answer")
+                    Text(stringResource(R.string.quiz_screen_submit_answer_button))
                 }
             }
         }
@@ -244,16 +247,16 @@ fun QuizResultsContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Тест завершен", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.quiz_screen_test_completed), style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Ваш счёт: $score / $totalQuestions", style = MaterialTheme.typography.titleLarge)
+        Text("${stringResource(R.string.quiz_screen_your_score_label)} $score / $totalQuestions", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onPlayAgain, modifier = Modifier.fillMaxWidth()) {
-            Text("Сыграй ещё раз")
+            Text(stringResource(R.string.common_play_again))
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(onClick = onBackToHome, modifier = Modifier.fillMaxWidth()) {
-            Text("Обратно в главное меню")
+            Text(stringResource(R.string.quiz_screen_back_to_main_menu_button))
         }
     }
 }

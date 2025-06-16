@@ -55,8 +55,11 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.google.android.material)
 
+    implementation("androidx.compose.material:material-icons-extended")
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
+    implementation("com.google.android.gms:play-services-auth:21.1.0")
     implementation(libs.firebase.analytics.ktx)
 
     implementation(libs.androidx.navigation.compose)

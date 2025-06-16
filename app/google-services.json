@@ -12,7 +12,20 @@
           "package_name": "com.chmod777.secawarequiz"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "577908536288-2outuhhv1d033qhd4gi5ot7jv6gfhfbh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chmod777.secawarequiz",
+            "certificate_hash": "ff8490bb04ce4315487e3a305bebf968bf09e7a6"
+          }
+        },
+        {
+          "client_id": "577908536288-arn7m8e328pptk6eikhhe6o7f065qf4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC23II4ETb9QMNcyrJQaNSEChrdJpSlgJ8"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577908536288-arn7m8e328pptk6eikhhe6o7f065qf4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

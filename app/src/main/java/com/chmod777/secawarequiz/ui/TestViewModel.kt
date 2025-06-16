@@ -25,53 +25,104 @@ class TestViewModel(private val questionDao: QuestionDao) : ViewModel() {
     val explanationText: StateFlow<String> = _explanationText.asStateFlow()
 
     private val _allQuestions = MutableStateFlow<List<UrlCheckQuestion>>(emptyList())
-    private val allQuestions: StateFlow<List<UrlCheckQuestion>> = _allQuestions.asStateFlow()
+    val allQuestions: StateFlow<List<UrlCheckQuestion>> = _allQuestions.asStateFlow()
 
+    private var currentQuestionOriginalId: Int = -1
     private var questionIndex: Int = 0
+
+    private val _score = MutableStateFlow(0)
+    val score: StateFlow<Int> = _score.asStateFlow()
+
+    private val _navigateToResults = MutableStateFlow(false)
+    val navigateToResults: StateFlow<Boolean> = _navigateToResults.asStateFlow()
 
     init {
         viewModelScope.launch {
             questionDao.getAllQuestions().collect { questions ->
                 _allQuestions.value = questions
-                if (questions.isNotEmpty()) {
-                    _currentQuestion.value = questions[questionIndex]
+                if (currentQuestionOriginalId != -1 && _currentQuestion.value == null && questions.isNotEmpty()) {
+                    val questionById = questions.find { it.id == currentQuestionOriginalId }
+                    if (questionById != null) {
+                        _currentQuestion.value = questionById
+                        questionIndex = questions.indexOf(questionById)
+                    } else {
+                        _currentQuestion.value = questions.firstOrNull()
+                        questionIndex = 0
+                    }
+                } else if (_currentQuestion.value == null && questions.isNotEmpty()){
+                     _currentQuestion.value = questions.firstOrNull()
+                     questionIndex = 0
                 }
+                _score.value = 0
+                _navigateToResults.value = false
             }
         }
     }
 
     fun loadQuestionById(id: Int) {
+        currentQuestionOriginalId = id
+        _navigateToResults.value = false
+        _score.value = 0
+
         viewModelScope.launch {
-            val question = questionDao.getQuestionById(id)
-            if (question != null) {
-                _currentQuestion.value = question
-                _answerGiven.value = false
-                _isCorrect.value = false
-                _explanationText.value = ""
-                questionIndex = _allQuestions.value.indexOfFirst { it.id == id }
+            if (_allQuestions.value.isNotEmpty()) {
+                val question = _allQuestions.value.find { it.id == id }
+                if (question != null) {
+                    _currentQuestion.value = question
+                    questionIndex = _allQuestions.value.indexOf(question)
+                } else {
+                    _currentQuestion.value = _allQuestions.value.firstOrNull()
+                    questionIndex = 0
+                }
+            } else {
+                 _currentQuestion.value = null
+                 val questionFromDb = questionDao.getQuestionById(id)
+                 if (_allQuestions.value.isEmpty()) {
+                    _currentQuestion.value = questionFromDb
+                 }
             }
+            resetAnswerState()
         }
+    }
+
+    private fun resetAnswerState() {
+        _answerGiven.value = false
+        _isCorrect.value = false
+        _explanationText.value = ""
     }
 
     fun onAnswerSelected(userAnswer: Boolean) {
         val question = _currentQuestion.value ?: return
+        if (_answerGiven.value) return
 
         _answerGiven.value = true
-        _isCorrect.value = (userAnswer == question.isSecure)
+        val correctAnswer = userAnswer == question.isSecure
+        _isCorrect.value = correctAnswer
+        if (correctAnswer) {
+            _score.value++
+        }
         _explanationText.value = question.explanation
     }
 
     fun goToNextQuestion() {
         val questions = _allQuestions.value
-        if (questions.isNotEmpty() && questionIndex < questions.size - 1) {
-            questionIndex++
-            _currentQuestion.value = questions[questionIndex]
-            _answerGiven.value = false
-            _isCorrect.value = false
-            _explanationText.value = ""
-        } else {
-            _currentQuestion.value = null
+        if (questions.isEmpty()) {
+            _navigateToResults.value = true
+            return
         }
+
+        val nextIndex = questionIndex + 1
+        if (nextIndex < questions.size) {
+            questionIndex = nextIndex
+            _currentQuestion.value = questions[questionIndex]
+            resetAnswerState()
+        } else {
+            _navigateToResults.value = true
+        }
+    }
+
+    fun onResultsNavigated() {
+        _navigateToResults.value = false
     }
 
     companion object {

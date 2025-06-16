@@ -2,6 +2,27 @@ package com.chmod777.secawarequiz.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val ScreenBackground = Color(0xFFFAFAFA)
+val PrimaryText = Color(0xFF212121)
+val BorderColor = Color(0xFFDADADA)
+val InputFieldBackground = Color(0xFFFFFFFF)
+val LinkColor = Color(0xFF2196F3)
+val ButtonTextColor = Color(0xFFFFFFFF)
+val GoogleButtonTextColor = Color(0xFF000000)
+val AccentBlue = Color(0xFF1E88E5)
+val HintGray = Color(0xFF9E9E9E)
+val ProfileItemIconColor = Color(0xFF424242)
+
+val HomeSubtitleText = Color(0xFF616161)
+val BottomNavBorder = Color(0xFFE0E0E0)
+val BottomNavActive = Color(0xFF2196F3)
+val BottomNavInactive = Color(0xFF9E9E9E)
+
+val CardAccentPhishing = Color(0xFF4FC3F7)
+val CardAccentPasswords = Color(0xFFF48FB1)
+val CardAccentLiteracy = Color(0xFF64B5F6)
+val CardAccentDataSecurity = Color(0xFF9575CD)
+
 val md_theme_light_primary = Color(0xFF6200EE)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFBB86FC)

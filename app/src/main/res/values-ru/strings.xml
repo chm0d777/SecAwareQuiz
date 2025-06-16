@@ -1,22 +1,33 @@
 <resources>
-    <string name="app_name">SecAwareQuiz</string>
+    <string name="app_name">SecAware Quiz</string>
 
-    <!-- Login Screen -->
-    <string name="login_scaffold_title">Вход - SecAwareQuiz</string>
+    <string name="login_scaffold_title">Вход - SecAware Квиз</string>
     <string name="login_heading">С возвращением!</string>
     <string name="email_label">Адрес электронной почты</string>
     <string name="password_label">Пароль</string>
     <string name="login_button_text">Войти</string>
-    <string name="login_to_register_link_text">Нет аккаунта? Зарегистрируйтесь</string>
+    <string name="login_to_register_link_text">Нет аккаунта? Зарегистрироваться</string>
 
-    <!-- Registration Screen -->
-    <string name="registration_scaffold_title">Регистрация - SecAwareQuiz</string>
-    <string name="registration_heading">Создать аккаунт</string>
+    <string name="login_title">SecAware Quiz</string>
+    <string name="login_subtitle">Добро пожаловать!</string>
+    <string name="username_or_email_hint">Имя пользователя или email</string>
+    <string name="password_hint">Пароль</string>
+    <string name="forgot_password_link">Забыли пароль?</string>
+    <string name="google_login_button_text">Войти через Google</string>
+    <string name="login_to_register_prompt">Нет аккаунта?</string>
+    <string name="login_to_register_action">Зарегистрироваться</string>
+
+    <string name="registration_scaffold_title">Регистрация - SecAware Квиз</string>
+    <string name="registration_heading">Создайте аккаунт</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint_registration">Пароль</string>
+    <string name="confirm_password_hint">Подтвердите пароль</string>
     <string name="confirm_password_label">Подтвердите пароль</string>
     <string name="register_button_text">Зарегистрироваться</string>
-    <string name="registration_to_login_link_text">Уже есть аккаунт? Войдите</string>
+    <string name="registration_to_login_link_text">Уже есть аккаунт? Войти</string>
+    <string name="registration_to_login_prompt">Уже есть аккаунт?</string>
+    <string name="registration_to_login_action">Войти</string>
 
-    <!-- ViewModel Error Messages (Static parts) -->
     <string name="error_all_fields_required">Все поля обязательны для заполнения.</string>
     <string name="error_invalid_email_format">Неверный формат электронной почты.</string>
     <string name="error_password_length">Пароль должен содержать не менее 6 символов.</string>
@@ -26,6 +37,135 @@
     <string name="error_user_collision">Аккаунт с такой электронной почтой уже существует.</string>
     <string name="error_unknown_registration">Неизвестная ошибка регистрации</string>
     <string name="error_no_account_found">Аккаунт с такой электронной почтой не найден.</string>
-    <string name="error_incorrect_password">Неверный пароль. Пожалуйста, попробуйте еще раз.</string>
+    <string name="error_incorrect_password">Неверный пароль. Пожалуйста, попробуйте снова.</string>
     <string name="error_unknown_login">Неизвестная ошибка входа.</string>
+
+    <string name="profile_screen_title">Профиль</string>
+    <string name="common_back">Назад</string>
+    <string name="profile_icon_description">Профиль</string>
+    <string name="profile_name_not_set">Имя не указано</string>
+    <string name="profile_email_not_set">Email не указан</string>
+    <string name="profile_user_not_authorized">Пользователь не авторизован</string>
+    <string name="common_sign_out">Выйти</string>
+    <string name="profile_sign_out_button">Выйти из аккаунта</string>
+
+    <string name="minigame_results_screen_title">Результаты Игры</string>
+    <string name="common_to_home_screen">На главный экран</string>
+    <string name="minigame_results_game_over">Игра Завершена!</string>
+    <string name="minigame_results_your_score">Ваш результат:</string>
+    <string name="common_play_again">Сыграть ещё раз</string>
+
+    <string name="minigame1_screen_title">Мини игра 1</string>
+    <string name="minigame1_placeholder_text">Миниигра 1 скоро добавлю</string>
+
+    <string name="minigame2_screen_title">Мини игра 2</string>
+    <string name="minigame2_placeholder_text">Мини игра 2 скоро будет</string>
+
+    <string name="quiz_results_screen_title">Результаты Теста</string>
+    <string name="quiz_results_test_over">Тест Завершен!</string>
+    <string name="quiz_results_score_label">Ваш результат:</string>
+
+    <string name="quiz_screen_results_title">Результаты Викторины</string>
+    <string name="quiz_screen_question_progress_format">Вопрос %1$d/%2$d</string>
+    <string name="quiz_screen_no_question_or_over">Вопрос не загружен или викторина завершена.</string>
+    <string name="quiz_screen_next_question_button">Следующий вопрос</string>
+    <string name="quiz_screen_correct_prefix">Правильно! </string>
+    <string name="quiz_screen_incorrect_prefix">Неправильно. </string>
+    <string name="quiz_screen_submit_answer_button">Отправить ответ</string>
+    <string name="quiz_screen_test_completed">Тест завершен</string>
+    <string name="quiz_screen_your_score_label">Ваш счёт:</string>
+    <string name="quiz_screen_back_to_main_menu_button">Обратно в главное меню</string>
+
+    <string name="app_title_full">SecAware Квиз</string>
+    <string name="home_greeting_format">Привет, %1$s!</string>
+    <string name="home_welcome_message">Добро пожаловать!</string>
+    <string name="home_card_url_test_title">Тест Безопасности URL</string>
+    <string name="home_card_url_test_description">Начать тест по URL</string>
+    <string name="home_card_phishing_game_title">Игра: Фишинговые Уловки</string>
+    <string name="home_card_phishing_game_description">Начать мини-игру про фишинг</string>
+
+    <string name="home_instruction_subtitle">Выбери тест для проверки своих знаний о безопасности в интернете.</string>
+    <string name="home_card_title_phishing">Фишинг</string>
+    <string name="home_card_title_passwords">Пароли</string>
+    <string name="home_card_title_literacy">Общая грамотность</string>
+    <string name="home_card_title_data_security">Безопасность данных</string>
+    <string name="bottom_nav_home">Домой</string>
+    <string name="bottom_nav_profile">Профиль</string>
+    <string name="home_settings_icon_desc">Настройки</string>
+    <string name="home_card_icon_desc_phishing">Иконка теста по фишингу</string>
+    <string name="home_card_icon_desc_passwords">Иконка теста по паролям</string>
+    <string name="home_card_icon_desc_literacy">Иконка теста по общей грамотности</string>
+    <string name="home_card_icon_desc_data_security">Иконка теста по безопасности данных</string>
+    <string name="bottom_nav_home_icon_desc">Иконка навигации Домой</string>
+    <string name="bottom_nav_profile_icon_desc">Иконка навигации Профиль</string>
+
+    <string name="minigame_loading_game">Загрузка игры...</string>
+    <string name="common_error">Ошибка</string>
+    <string name="common_error_prefix">Ошибка: </string>
+    <string name="common_try_again">Попробовать снова</string>
+    <string name="minigame_preparing_results">Подготовка результатов...</string>
+    <string name="minigame_next_scenario">Следующий сценарий</string>
+    <string name="minigame_check_answer">Проверить ответ</string>
+    <string name="common_score_prefix">Счёт: </string>
+    <string name="minigame_no_data_available">Нет доступных игровых данных. Попробуйте перезапустить.</string>
+    <string name="minigame_load_game_button">Загрузить игру</string>
+    <string name="minigame_scenario_label">Сценарий:</string>
+    <string name="minigame_select_option_label">Выберите наиболее подходящий вариант:</string>
+    <string name="common_correct">Правильно</string>
+    <string name="common_incorrect">Неправильно</string>
+
+    <string name="test_screen_is_url_safe_question">Этот URL безопасен?</string>
+    <string name="common_safe">Безопасно</string>
+    <string name="common_unsafe">Небезопасно</string>
+    <string name="test_screen_correct_answer_desc">Правильный ответ</string>
+    <string name="test_screen_incorrect_answer_desc">Неправильный ответ</string>
+    <string name="test_screen_correct_exclamation">Правильно!</string>
+    <string name="test_screen_incorrect_exclamation">Неправильно!</string>
+    <string name="common_loading">Загрузка...</string>
+
+    <string name="fake_login_game_title_short">Угадай Подделку</string>
+    <string name="fake_login_game_description">Определите, является ли страница входа настоящей или поддельной.</string>
+    <string name="real_button">Реальный</string>
+    <string name="fake_button">Поддельный</string>
+    <string name="next_button">Следующий</string>
+    <string name="correct_answer_feedback">Правильно!</string>
+    <string name="incorrect_answer_feedback">Неправильно!</string>
+    <string name="elements_to_spot_label">На что обратить внимание:</string>
+    <string name="game_no_data">Нет данных для игры.</string>
+
+    <string name="password_reset_title">Сброс пароля</string>
+    <string name="password_reset_instruction">Введите ваш email для сброса пароля.</string>
+    <string name="password_reset_button_text">Отправить ссылку для сброса</string>
+    <string name="password_reset_success_message">Ссылка для сброса пароля отправлена на ваш email.</string>
+    <string name="password_reset_error_message">Ошибка при отправке ссылки. Пожалуйста, попробуйте снова.</string>
+    <string name="password_reset_back_to_login">Вернуться ко входу</string>
+
+    <string name="profile_section_account">Аккаунт</string>
+    <string name="profile_section_settings">Настройки</string>
+    <string name="profile_item_edit_profile">Изменить профиль</string>
+    <string name="profile_item_change_password">Изменить пароль</string>
+    <string name="profile_item_notifications">Уведомления</string>
+    <string name="profile_item_theme">Тема</string>
+    <string name="profile_item_language">Язык</string>
+    <string name="profile_item_about">О приложении</string>
+    <string name="profile_value_theme_dark">Тёмная</string>
+    <string name="profile_value_theme_light">Светлая</string>
+    <string name="profile_value_language_russian">Русский</string>
+    <string name="profile_value_language_english">Английский</string>
+    <string name="profile_icon_edit_profile_desc">Иконка изменения профиля</string>
+    <string name="profile_icon_change_password_desc">Иконка изменения пароля</string>
+    <string name="profile_icon_notifications_desc">Иконка уведомлений</string>
+    <string name="profile_icon_theme_desc">Иконка выбора темы</string>
+    <string name="profile_icon_language_desc">Иконка выбора языка</string>
+    <string name="profile_icon_about_desc">Иконка информации о приложении</string>
+    <string name="profile_avatar_desc">Аватар пользователя</string>
+    <string name="profile_item_navigation_arrow_desc">Перейти к деталям</string>
+
+    <string name="all_tests_screen_title">Все тесты и игры</string>
+
+    <string name="settings_dropdown_theme_toggle_desc">Переключить тему приложения</string>
+    <string name="settings_dropdown_language_toggle_desc">Переключить язык приложения</string>
+
+    <string name="bottom_nav_tests">Тесты</string>
+    <string name="bottom_nav_tests_icon_desc">Иконка навигации Тесты</string>
 </resources>

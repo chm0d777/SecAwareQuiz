@@ -1,7 +1,7 @@
 package com.chmod777.secawarequiz.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,9 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,26 +26,39 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.chmod777.secawarequiz.R
+import com.chmod777.secawarequiz.navigation.Screen
 
 @Composable
 fun TestScreen(
     navController: NavHostController,
-    testViewModel: TestViewModel = viewModel(),
+    testViewModel: TestViewModel,
     questionId: Int
 ) {
     val currentQuestion by testViewModel.currentQuestion.collectAsState()
     val answerGiven by testViewModel.answerGiven.collectAsState()
     val isCorrect by testViewModel.isCorrect.collectAsState()
     val explanationText by testViewModel.explanationText.collectAsState()
+    val score by testViewModel.score.collectAsState()
+    val totalQuestions = testViewModel.allQuestions.collectAsState().value.size
+    val navigateToResults by testViewModel.navigateToResults.collectAsState()
 
     LaunchedEffect(questionId) {
         testViewModel.loadQuestionById(questionId)
+    }
+
+    LaunchedEffect(navigateToResults) {
+        if (navigateToResults) {
+            navController.navigate(Screen.QuizResults.createRoute(score, totalQuestions)) {
+                popUpTo(Screen.Home.route)
+            }
+            testViewModel.onResultsNavigated()
+        }
     }
 
     Column(
@@ -49,7 +68,7 @@ fun TestScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (currentQuestion != null) {
+        currentQuestion?.let { question ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -61,13 +80,13 @@ fun TestScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Этот URL безопасен?",
+                        text = stringResource(R.string.test_screen_is_url_safe_question),
                         style = MaterialTheme.typography.headlineSmall,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
                     Text(
-                        text = currentQuestion!!.url,
+                        text = question.url,
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.primary,
@@ -90,7 +109,7 @@ fun TestScreen(
                         .weight(1f)
                         .padding(horizontal = 8.dp)
                 ) {
-                    Text("Безопасно")
+                    Text(stringResource(R.string.common_safe))
                 }
                 Button(
                     onClick = { testViewModel.onAnswerSelected(false) },
@@ -99,60 +118,66 @@ fun TestScreen(
                         .weight(1f)
                         .padding(horizontal = 8.dp)
                 ) {
-                    Text("Небезопасно")
+                    Text(stringResource(R.string.common_unsafe))
                 }
             }
 
             if (answerGiven) {
                 Spacer(modifier = Modifier.height(24.dp))
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(if (isCorrect) Color(0xFFE8F5E9) else Color(0xFFFFEBEE))
-                        .padding(16.dp)
-                        .background(
-                            color = if (isCorrect) Color(0xFFE8F5E9) else Color(0xFFFFEBEE),
-                            shape = MaterialTheme.shapes.medium
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isCorrect) MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = 0.7f)
+                                         else MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.7f)
+                    )
                 ) {
-                    Text(
-                        text = if (isCorrect) "Правильно!" else "Неправильно!",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            color = if (isCorrect) Color(0xFF2E7D32) else Color(0xFFC62828)
-                        ),
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    Text(
-                        text = explanationText,
-                        style = MaterialTheme.typography.bodyLarge,
-                        textAlign = TextAlign.Center
-                    )
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(modifier = Modifier.size(80.dp)) {
+                            Icon(
+                                imageVector = if (isCorrect) Icons.Filled.CheckCircle else Icons.Filled.Warning,
+                                contentDescription = if (isCorrect) stringResource(R.string.test_screen_correct_answer_desc) else stringResource(R.string.test_screen_incorrect_answer_desc),
+                                modifier = Modifier.fillMaxSize(),
+                                tint = if (isCorrect) MaterialTheme.colorScheme.onTertiaryContainer
+                                       else MaterialTheme.colorScheme.onErrorContainer
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = if (isCorrect) stringResource(R.string.test_screen_correct_exclamation) else stringResource(R.string.test_screen_incorrect_exclamation),
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = if (isCorrect) MaterialTheme.colorScheme.onTertiaryContainer
+                                    else MaterialTheme.colorScheme.onErrorContainer,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = explanationText,
+                            style = MaterialTheme.typography.bodyMedium,
+                            textAlign = TextAlign.Center,
+                            color = if (isCorrect) MaterialTheme.colorScheme.onTertiaryContainer
+                                    else MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = { testViewModel.goToNextQuestion() },
-                    modifier = Modifier.fillMaxWidth(0.6f)
+                    modifier = Modifier.fillMaxWidth(0.8f)
                 ) {
-                    Text("Следующий вопрос")
+                    Text(stringResource(R.string.quiz_screen_next_question_button))
                 }
             }
-        } else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "Тест завершен! норм!",
-                    style = MaterialTheme.typography.headlineLarge,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                Button(onClick = { navController.popBackStack() }) {
-                    Text("Вернуться в главное меню")
-                }
-            }
+        } ?: run {
+            CircularProgressIndicator(modifier = Modifier.size(64.dp))
+            Text(
+                text = stringResource(R.string.common_loading),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(top = 16.dp)
+            )
         }
     }
 }

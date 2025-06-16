@@ -1,22 +1,33 @@
 <resources>
-    <string name="app_name">SecAwareQuiz</string>
+    <string name="app_name">SecAware Quiz</string>
 
-    <!-- вход -->
     <string name="login_scaffold_title">Login - SecAwareQuiz</string>
     <string name="login_heading">Welcome Back!</string>
     <string name="email_label">Email Address</string>
     <string name="password_label">Password</string>
     <string name="login_button_text">Login</string>
-    <string name="login_to_register_link_text">Don\'t have an account? Register</string>
+    <string name="login_to_register_link_text">Don\'t have an account? Sign up</string>
 
-    <!-- регистрация -->
+    <string name="login_title">SecAware Quiz</string>
+    <string name="login_subtitle">Welcome!</string>
+    <string name="username_or_email_hint">Username or email</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password_link">Forgot password?</string>
+    <string name="google_login_button_text">Login with Google</string>
+    <string name="login_to_register_prompt">Don\'t have an account?</string>
+    <string name="login_to_register_action">Sign up</string>
+
     <string name="registration_scaffold_title">Register - SecAwareQuiz</string>
-    <string name="registration_heading">Create Account</string>
+    <string name="registration_heading">Create your account</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint_registration">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
     <string name="confirm_password_label">Confirm Password</string>
     <string name="register_button_text">Register</string>
     <string name="registration_to_login_link_text">Already have an account? Login</string>
+    <string name="registration_to_login_prompt">Already have an account?</string>
+    <string name="registration_to_login_action">Login</string>
 
-    <!-- ViewModel ошибки -->
     <string name="error_all_fields_required">All fields are required.</string>
     <string name="error_invalid_email_format">Invalid email format.</string>
     <string name="error_password_length">Password must be at least 6 characters.</string>
@@ -29,4 +40,135 @@
     <string name="error_incorrect_password">Incorrect password. Please try again.</string>
     <string name="error_unknown_login">Unknown login error.</string>
 
+    <string name="profile_screen_title">Профиль</string>
+    <string name="common_back">Назад</string>
+    <string name="profile_icon_description">Профиль</string>
+    <string name="profile_name_not_set">Имя не указано</string>
+    <string name="profile_email_not_set">Email не указан</string>
+    <string name="profile_user_not_authorized">Пользователь не авторизован</string>
+    <string name="common_sign_out">Выйти</string>
+    <string name="profile_sign_out_button">Выйти из аккаунта</string>
+
+    <string name="minigame_results_screen_title">Результаты Игры</string>
+    <string name="common_to_home_screen">На главный экран</string>
+    <string name="minigame_results_game_over">Игра Завершена!</string>
+    <string name="minigame_results_your_score">Ваш результат:</string>
+    <string name="common_play_again">Сыграть ещё раз</string>
+
+    <string name="minigame1_screen_title">Мини игра 1</string>
+    <string name="minigame1_placeholder_text">Миниигра 1 скоро добавлю</string>
+
+    <string name="minigame2_screen_title">Мини игра 2</string>
+    <string name="minigame2_placeholder_text">Мини игра 2 скоро будет</string>
+
+    <string name="quiz_results_screen_title">Результаты Теста</string>
+    <string name="quiz_results_test_over">Тест Завершен!</string>
+    <string name="quiz_results_score_label">Ваш результат:</string>
+
+    <string name="quiz_screen_results_title">Quiz Results</string>
+    <string name="quiz_screen_question_progress_format">Question %1$d/%2$d</string>
+    <string name="quiz_screen_no_question_or_over">No question loaded or quiz is over.</string>
+    <string name="quiz_screen_next_question_button">Next Question</string>
+    <string name="quiz_screen_correct_prefix">Correct! </string>
+    <string name="quiz_screen_incorrect_prefix">Incorrect. </string>
+    <string name="quiz_screen_submit_answer_button">Submit Answer</string>
+    <string name="quiz_screen_test_completed">Тест завершен</string>
+    <string name="quiz_screen_your_score_label">Ваш счёт:</string>
+    <string name="quiz_screen_back_to_main_menu_button">Обратно в главное меню</string>
+
+    <string name="app_title_full">SecAware Quiz</string>
+    <string name="home_greeting_format">Привет, %1$s!</string>
+    <string name="home_welcome_message">Добро пожаловать!</string>
+    <string name="home_card_url_test_title">Тест Безопасности URL</string>
+    <string name="home_card_url_test_description">Начать тест по URL</string>
+    <string name="home_card_phishing_game_title">Игра: Фишинговые Уловки</string>
+    <string name="home_card_phishing_game_description">Начать мини-игру про фишинг</string>
+
+    <string name="home_instruction_subtitle">Choose a test to check your internet security knowledge.</string>
+    <string name="home_card_title_phishing">Phishing</string>
+    <string name="home_card_title_passwords">Passwords</string>
+    <string name="home_card_title_literacy">General Literacy</string>
+    <string name="home_card_title_data_security">Data Security</string>
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_profile">Profile</string>
+    <string name="home_settings_icon_desc">Settings</string>
+    <string name="home_card_icon_desc_phishing">Phishing test icon</string>
+    <string name="home_card_icon_desc_passwords">Passwords test icon</string>
+    <string name="home_card_icon_desc_literacy">General literacy test icon</string>
+    <string name="home_card_icon_desc_data_security">Data security test icon</string>
+    <string name="bottom_nav_home_icon_desc">Home navigation icon</string>
+    <string name="bottom_nav_profile_icon_desc">Profile navigation icon</string>
+
+    <string name="minigame_loading_game">Загрузка игры...</string>
+    <string name="common_error">Ошибка</string>
+    <string name="common_error_prefix">Ошибка: </string>
+    <string name="common_try_again">Попробовать снова</string>
+    <string name="minigame_preparing_results">Подготовка результатов...</string>
+    <string name="minigame_next_scenario">Следующий сценарий</string>
+    <string name="minigame_check_answer">Проверить ответ</string>
+    <string name="common_score_prefix">Счёт: </string>
+    <string name="minigame_no_data_available">Нет доступных игровых данных. Попробуйте перезапустить.</string>
+    <string name="minigame_load_game_button">Загрузить игру</string>
+    <string name="minigame_scenario_label">Сценарий:</string>
+    <string name="minigame_select_option_label">Выберите наиболее подходящий вариант:</string>
+    <string name="common_correct">Правильно</string>
+    <string name="common_incorrect">Неправильно</string>
+
+    <string name="test_screen_is_url_safe_question">Этот URL безопасен?</string>
+    <string name="common_safe">Безопасно</string>
+    <string name="common_unsafe">Небезопасно</string>
+    <string name="test_screen_correct_answer_desc">Правильный ответ</string>
+    <string name="test_screen_incorrect_answer_desc">Неправильный ответ</string>
+    <string name="test_screen_correct_exclamation">Правильно!</string>
+    <string name="test_screen_incorrect_exclamation">Неправильно!</string>
+    <string name="common_loading">Загрузка...</string>
+
+    <string name="fake_login_game_title_short">Угадай Подделку</string>
+    <string name="fake_login_game_description">Определите, является ли страница входа настоящей или поддельной.</string>
+    <string name="real_button">Реальный</string>
+    <string name="fake_button">Поддельный</string>
+    <string name="next_button">Следующий</string>
+    <string name="correct_answer_feedback">Правильно!</string>
+    <string name="incorrect_answer_feedback">Неправильно!</string>
+    <string name="elements_to_spot_label">На что обратить внимание:</string>
+    <string name="game_no_data">Нет данных для игры.</string>
+
+    <string name="password_reset_title">Reset Password</string>
+    <string name="password_reset_instruction">Enter your email to reset your password.</string>
+    <string name="password_reset_button_text">Send Reset Link</string>
+    <string name="password_reset_success_message">Password reset link sent to your email.</string>
+    <string name="password_reset_error_message">Error sending reset link. Please try again.</string>
+    <string name="password_reset_back_to_login">Back to Login</string>
+
+    <string name="profile_section_account">Account</string>
+    <string name="profile_section_settings">Settings</string>
+    <string name="profile_item_edit_profile">Edit Profile</string>
+    <string name="profile_item_change_password">Change Password</string>
+    <string name="profile_item_notifications">Notifications</string>
+    <string name="profile_item_theme">Theme</string>
+    <string name="profile_item_language">Language</string>
+    <string name="profile_item_about">About</string>
+    <string name="profile_value_theme_dark">Dark</string>
+    <string name="profile_value_theme_light">Light</string>
+    <string name="profile_value_language_russian">Russian</string>
+    <string name="profile_value_language_english">English</string>
+    <string name="profile_icon_edit_profile_desc">Edit profile icon</string>
+    <string name="profile_icon_change_password_desc">Change password icon</string>
+    <string name="profile_icon_notifications_desc">Notifications icon</string>
+    <string name="profile_icon_theme_desc">Theme selection icon</string>
+    <string name="profile_icon_language_desc">Language selection icon</string>
+    <string name="profile_icon_about_desc">About application icon</string>
+    <string name="profile_avatar_desc">User avatar</string>
+    <string name="profile_item_navigation_arrow_desc">Go to details</string>
+
+    <string name="all_tests_screen_title">All Tests &amp; Games</string>
+
+    <string name="settings_dropdown_theme_toggle_desc">Toggle app theme</string>
+    <string name="settings_dropdown_language_toggle_desc">Toggle app language</string>
+
+    <string name="bottom_nav_tests">Tests</string>
+    <string name="bottom_nav_tests_icon_desc">Tests navigation icon</string>
+
+    <!-- Replace with your actual Web Client ID from Firebase console / google-services.json -->
+    <string name="default_web_client_id" translatable="false">YOUR_WEB_CLIENT_ID_FROM_FIREBASE_CONSOLE_OR_JSON</string>
 </resources>

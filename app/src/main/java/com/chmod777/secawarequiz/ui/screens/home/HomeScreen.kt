@@ -18,7 +18,7 @@ data class HomeItem(
     val title: String,
     val description: String
 )
-
+@Preview(showBackground = true, locale = "ru")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
