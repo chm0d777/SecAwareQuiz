@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chmod777.secawarequiz.data.FakeLoginGameItem
 import com.chmod777.secawarequiz.data.FakeLoginGameItemDao
-import com.chmod777.secawarequiz.data.ReviewDataHolder // Added import
-import com.chmod777.secawarequiz.data.model.AnsweredFakeLoginItemDetails // Added import
+import com.chmod777.secawarequiz.data.ReviewDataHolder
+import com.chmod777.secawarequiz.data.model.AnsweredFakeLoginItemDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,7 +42,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
     private val _actualTotalItemsForResults = MutableStateFlow(0)
     val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
 
-    private val _answeredItemsList = mutableListOf<AnsweredFakeLoginItemDetails>() // Added list
+    private val _answeredItemsList = mutableListOf<AnsweredFakeLoginItemDetails>()
 
     init {
         loadGameItems()
@@ -76,7 +76,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
             _userAnswered.value = false
             _isCorrect.value = null
             _showResults.value = false
-            _answeredItemsList.clear() // Clear list
+            _answeredItemsList.clear()
             dao.getAllItems().collectLatest { items ->
                 _gameItems.value = items.shuffled()
                 _actualTotalItemsForResults.value = _gameItems.value.size

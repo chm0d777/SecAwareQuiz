@@ -45,7 +45,7 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
     private val _actualTotalItemsForResults = MutableStateFlow(0)
     val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
 
-    private val _answeredGameItemDetailsList = mutableListOf<AnsweredGameItemDetails>() // Added list
+    private val _answeredGameItemDetailsList = mutableListOf<AnsweredGameItemDetails>()
 
     init {
         loadGameItems()
@@ -100,7 +100,6 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
             if (wasCorrect) {
                 _score.value += 1
             }
-            // Store answered game item details
             val details = AnsweredGameItemDetails(
                 gameItem = current,
                 userAnswerIndex = selectedIndex,

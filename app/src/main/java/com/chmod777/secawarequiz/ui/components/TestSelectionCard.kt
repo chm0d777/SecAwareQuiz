@@ -48,7 +48,7 @@ fun TestSelectionCard(
             .height(IntrinsicSize.Min),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background), // Changed to background for white in light theme
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
         onClick = onClick
     ) {
         Column(

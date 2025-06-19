@@ -3,7 +3,7 @@ package com.chmod777.secawarequiz.ui.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape // Import for shape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -11,12 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-// import androidx.compose.ui.graphics.Color // Not strictly needed if all from theme
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 
 @Composable
 internal fun ResultScreen(
@@ -26,7 +24,6 @@ internal fun ResultScreen(
     incorrectAnswers: Int,
     onReviewClicked: () -> Unit,
     onContinueClicked: () -> Unit
-
 ) {
     Column(
         modifier = Modifier
@@ -52,7 +49,7 @@ internal fun ResultScreen(
         )
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = "Счёт", // Hardcoded Russian
+            text = "Счёт",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
@@ -65,7 +62,7 @@ internal fun ResultScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Правильные ответы: $correctAnswers", /
+            text = "Правильные ответы: $correctAnswers",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -83,7 +80,7 @@ internal fun ResultScreen(
             modifier = Modifier.fillMaxWidth().height(48.dp)
         ) {
             Text(
-                text = "Просмотрите ответы", // Hardcoded Russian
+                text = "Просмотрите ответы",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp
             )
@@ -91,12 +88,12 @@ internal fun ResultScreen(
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = onContinueClicked,
-            shape = RoundedCornerShape(8.dp), // APPLY SHAPE
+            shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             modifier = Modifier.fillMaxWidth().height(48.dp)
         ) {
             Text(
-                text = "Продолжить", // Hardcoded Russian
+                text = "Продолжить",
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 16.sp
             )

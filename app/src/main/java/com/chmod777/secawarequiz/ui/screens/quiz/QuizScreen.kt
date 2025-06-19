@@ -61,7 +61,7 @@ fun QuizScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* TODO: Handle back navigation, possibly pop from NavController */ }) {
+                    IconButton(onClick = { }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
                     }
                 }
@@ -77,7 +77,7 @@ fun QuizScreen(
                 score = uiState.score,
                 totalQuestions = uiState.totalQuestions,
                 onPlayAgain = { viewModel.restartQuiz() },
-                onBackToHome = { /* TODO: Handle navigation back to home */ },
+                onBackToHome = { },
                 modifier = Modifier.padding(paddingValues)
             )
         } else if (uiState.currentQuestion != null) {
