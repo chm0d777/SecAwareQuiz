@@ -19,4 +19,19 @@ interface QuestionDao {
 
     @Query("DELETE FROM url_check_questions")
     suspend fun deleteAllQuestions()
+
+    @Query("SELECT * FROM quiz_questions")
+    fun getAllQuizQuestions(): Flow<List<QuizQuestion>>
+
+    @Query("SELECT * FROM quiz_questions WHERE id = :id")
+    fun getQuizQuestionById(id: Int): Flow<QuizQuestion?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertQuizQuestion(question: QuizQuestion)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllQuizQuestions(questions: List<QuizQuestion>)
+
+    @Query("SELECT * FROM quiz_questions WHERE quizGroupId = :groupId ORDER BY id ASC")
+    fun getQuestionsByGroupId(groupId: String): Flow<List<QuizQuestion>>
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chmod777.secawarequiz.data.FakeLoginGameItem
 import com.chmod777.secawarequiz.data.FakeLoginGameItemDao
+import com.chmod777.secawarequiz.data.ReviewDataHolder // Added import
+import com.chmod777.secawarequiz.data.model.AnsweredFakeLoginItemDetails // Added import
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -36,6 +38,8 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
 
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
+
+    private val _answeredItemsList = mutableListOf<AnsweredFakeLoginItemDetails>() // Added list
 
     init {
         loadGameItems()
@@ -69,6 +73,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
             _userAnswered.value = false
             _isCorrect.value = null
             _showResults.value = false
+            _answeredItemsList.clear() // Clear list
             dao.getAllItems().collectLatest { items ->
                 _gameItems.value = items.shuffled()
 
@@ -79,25 +84,35 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
 
     fun selectAnswer(userChoseFake: Boolean) {
         if (_userAnswered.value) return
-        _userAnswered.value = true
 
         val current = _currentItem.value
-        current?.let {
-            val correct = (it.isFake == userChoseFake)
+        current?.let { item ->
+            _userAnswered.value = true // Set userAnswered only when an answer is processed for a valid item
+            val correct = (item.isFake == userChoseFake)
             if (correct) {
                 _score.value++
             }
             _isCorrect.value = correct
+
+            val details = AnsweredFakeLoginItemDetails(
+                fakeLoginItem = item,
+                userAnswerWasFake = userChoseFake,
+                wasCorrect = correct
+            )
+            _answeredItemsList.add(details)
         }
     }
 
     fun nextItem() {
         if (_currentItemIndex.value < _gameItems.value.size - 1) {
             _currentItemIndex.value++
-
             _userAnswered.value = false
             _isCorrect.value = null
         } else {
+            ReviewDataHolder.answeredFakeLoginItems = ArrayList(_answeredItemsList) // Store for review
+            _currentItem.value = null
+            _gameItems.value = emptyList() // Also clear all game items list
+            _currentItemIndex.value = 0 // Reset current item index
             _showResults.value = true
         }
     }

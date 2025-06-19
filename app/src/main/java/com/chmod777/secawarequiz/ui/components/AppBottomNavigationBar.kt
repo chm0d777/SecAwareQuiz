@@ -7,14 +7,16 @@ import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme // Added import
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation // Added import
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color // Added import
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,16 +26,17 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.navigation.Screen
-import com.chmod777.secawarequiz.ui.theme.BottomNavActive
-import com.chmod777.secawarequiz.ui.theme.BottomNavBorder
-import com.chmod777.secawarequiz.ui.theme.BottomNavInactive
+// import com.chmod777.secawarequiz.ui.theme.BottomNavActive // To be replaced
+// import com.chmod777.secawarequiz.ui.theme.BottomNavBorder // To be removed
+// import com.chmod777.secawarequiz.ui.theme.BottomNavInactive // To be replaced
+import com.chmod777.secawarequiz.ui.theme.LightBlueNavIndicator // Added import
 import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
 
 @Composable
 fun AppBottomNavigationBar(navController: NavController, items: List<Screen>) {
     NavigationBar(
-        modifier = Modifier.border(width = 0.5.dp, color = BottomNavBorder),
-        containerColor = Color.White,
+        // modifier = Modifier.border(width = 0.5.dp, color = BottomNavBorder), // Removed border
+        containerColor = MaterialTheme.colorScheme.background, // Changed to background for white in light theme
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -73,11 +76,11 @@ fun AppBottomNavigationBar(navController: NavController, items: List<Screen>) {
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = BottomNavActive,
-                    unselectedIconColor = BottomNavInactive,
-                    selectedTextColor = BottomNavActive,
-                    unselectedTextColor = BottomNavInactive,
-                    indicatorColor = Color.Transparent
+                    selectedIconColor = Color.White, // Changed for contrast with new indicator
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    selectedTextColor = Color.White, // Changed for contrast with new indicator
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    indicatorColor = LightBlueNavIndicator // User requested color #0D80F2
                 )
             )
         }

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chmod777.secawarequiz.data.GameItem
 import com.chmod777.secawarequiz.data.GameItemDao
+import com.chmod777.secawarequiz.data.ReviewDataHolder // Added import
+import com.chmod777.secawarequiz.data.model.AnsweredGameItemDetails // Added import
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,11 +42,14 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
 
+    private val _answeredGameItemDetailsList = mutableListOf<AnsweredGameItemDetails>() // Added list
+
     init {
         loadGameItems()
     }
 
     fun loadGameItems() {
+        _answeredGameItemDetailsList.clear() // Clear list when new game starts
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
@@ -84,8 +89,19 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
         _error.value = null
 
         val current = _currentItem.value
-        if (current != null && _selectedOptionIndex.value == current.correctOptionIndex) {
-            _score.value += 1
+        val selectedIndex = _selectedOptionIndex.value
+        if (current != null && selectedIndex != null) {
+            val wasCorrect = selectedIndex == current.correctOptionIndex
+            if (wasCorrect) {
+                _score.value += 1
+            }
+            // Store answered game item details
+            val details = AnsweredGameItemDetails(
+                gameItem = current,
+                userAnswerIndex = selectedIndex,
+                wasCorrect = wasCorrect
+            )
+            _answeredGameItemDetailsList.add(details)
         }
         _answerSubmitted.value = true
     }
@@ -96,6 +112,10 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
             _currentItem.value = _gameItems.value[_currentItemIndex.value]
             resetCurrentItemState()
         } else {
+            ReviewDataHolder.answeredGameItems = ArrayList(_answeredGameItemDetailsList) // Store for review
+            _currentItem.value = null
+            _gameItems.value = emptyList() // Also clear all game items list
+            _currentItemIndex.value = 0 // Reset current item index
             _showResults.value = true
         }
     }

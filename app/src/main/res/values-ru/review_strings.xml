@@ -1,0 +1,9 @@
+<resources>
+    <string name="review_answers_screen_title">Просмотр ответов</string>
+    <string name="review_answers_no_data">Нет данных для просмотра.</string>
+    <string name="review_answers_question_number">Вопрос №%1$d</string>
+    <string name="review_answers_your_answer_label">Ваш ответ:</string>
+    <string name="review_answers_correct_answer_label">Правильный ответ:</string>
+    <string name="review_answers_explanation_label">Пояснение:</string>
+    <string name="review_answers_not_answered">Нет ответа</string>
+</resources>

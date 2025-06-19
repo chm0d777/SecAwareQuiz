@@ -1,0 +1,9 @@
+<resources>
+    <string name="fake_login_results_title">Fake Login Game Results</string>
+    <string name="fake_login_review_title">Review Fake Login Game</string>
+    <string name="fl_review_your_choice">Your choice: %1$s</string>
+    <string name="fl_review_actual_answer">Actual: %1$s</string>
+    <string name="fl_review_value_real">Real</string>
+    <string name="fl_review_value_fake">Fake</string>
+    <string name="fl_review_elements_label">Key elements to spot:</string>
+</resources>

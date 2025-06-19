@@ -23,6 +23,13 @@ val CardAccentPasswords = Color(0xFFF48FB1)
 val CardAccentLiteracy = Color(0xFF64B5F6)
 val CardAccentDataSecurity = Color(0xFF9575CD)
 
+val CardAccentQuiz = CardAccentLiteracy
+val CardAccentFakeLogin = CardAccentDataSecurity
+
+val FigmaLightSurface = Color(0xFFF7FAFC) // Added
+
+val LightBlueNavIndicator = Color(0xFF0D80F2)
+
 val md_theme_light_primary = Color(0xFF6200EE)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFBB86FC)

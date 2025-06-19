@@ -1,51 +1,72 @@
 package com.chmod777.secawarequiz.ui.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Extension
+import androidx.compose.material.icons.filled.Quiz
+import androidx.compose.material.icons.filled.SecurityUpdateGood
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.chmod777.secawarequiz.data.model.TestListItem // Import moved model
 import com.chmod777.secawarequiz.navigation.Screen
-import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
+import com.chmod777.secawarequiz.ui.components.TestSelectionCard
+import com.chmod777.secawarequiz.ui.theme.*
+import com.chmod777.secawarequiz.viewmodels.AllTestsViewModel
 
 
-data class TestListItem(val id: String, val title: String, val description: String, val route: String)
+// data class TestListItem(val id: String, val title: String, val description: String, val route: String) // Removed local definition
 
 @Composable
-fun AllTestsScreen(navController: NavController, modifier: Modifier = Modifier) {
-    val allTestsAndGames = listOf(
-        TestListItem("quiz1", "URL Safety Quiz", "Test your knowledge about safe URLs.", Screen.Quiz.createRoute(1)),
-        TestListItem("minigame1", "Phishing Master", "Identify phishing attempts.", Screen.Minigame1.route),
-        TestListItem("fakelogin", "Fake Login Spotter", "Can you spot the fake login page?", Screen.FakeLoginGame.route),
-        TestListItem("quiz2", "Password Strength Test", "Learn about strong passwords.", Screen.Quiz.createRoute(2)),
-        TestListItem("quiz3", "Social Engineering Awareness", "Understand social engineering tactics.", Screen.Quiz.createRoute(3)),
-        TestListItem("minigame2", "Data Breach Game", "Simulate responding to a data breach.", Screen.Home.route)
-    )
+fun AllTestsScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    allTestsViewModel: AllTestsViewModel = viewModel() // Inject ViewModel
+) {
+    val allTestsAndGames by allTestsViewModel.testItems.collectAsState() // Collect from ViewModel
 
-    Column(modifier = modifier.fillMaxSize()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background) // THEME Color
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             items(allTestsAndGames) { testItem ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { navController.navigate(testItem.route) }
-                        .padding(horizontal = 16.dp, vertical = 12.dp)
-                ) {
-                    Text(testItem.title, style = MaterialTheme.typography.titleMedium)
-                    Text(testItem.description, style = MaterialTheme.typography.bodySmall)
+                val (icon, color) = when (testItem.id) {
+                    "quiz1" -> Icons.Filled.SecurityUpdateGood to CardAccentLiteracy
+                    "minigame1" -> Icons.Filled.Extension to CardAccentPhishing
+                    "fakelogin" -> Icons.Filled.Quiz to CardAccentDataSecurity
+                    else -> Icons.Filled.Quiz to MaterialTheme.colorScheme.primary
                 }
-                Divider()
+                TestSelectionCard(
+                    title = stringResource(id = testItem.titleResId), // Use stringResource
+                    icon = icon,
+                    accentColor = color,
+                    contentDescription = "Icon for " + stringResource(id = testItem.titleResId), // Use stringResource
+                    description = stringResource(id = testItem.descriptionResId), // Use stringResource
+                    onClick = { navController.navigate(testItem.route) }
+                )
             }
         }
     }
@@ -55,6 +76,9 @@ fun AllTestsScreen(navController: NavController, modifier: Modifier = Modifier) 
 @Composable
 fun AllTestsScreenPreview() {
     SecAwareQuizTheme {
-        AllTestsScreen(navController = rememberNavController(), modifier = Modifier.padding(0.dp))
+        // Preview will likely not work correctly with default ViewModel instantiation
+        // without Hilt or a custom factory. For now, let it be.
+        // It might show an empty screen or crash if ViewModel relies on complex dependencies not available in preview.
+        AllTestsScreen(navController = rememberNavController(), modifier = Modifier)
     }
 }

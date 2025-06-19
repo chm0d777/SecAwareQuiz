@@ -82,7 +82,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
         columns = GridCells.Fixed(2),
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp),
         contentPadding = PaddingValues(top = 24.dp, bottom = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -96,14 +96,16 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 Text(
                     text = if (uiState.userName.isNullOrEmpty()) stringResource(R.string.home_welcome_message)
                            else stringResource(R.string.home_greeting_format, uiState.userName!!),
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold, color = PrimaryText, fontSize = 26.sp),
+                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold, fontSize = 26.sp),
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
                     text = stringResource(id = R.string.home_instruction_subtitle),
-                    style = MaterialTheme.typography.bodyLarge.copy(color = HomeSubtitleText, fontSize = 17.sp),
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(24.dp))
@@ -119,6 +121,7 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 icon = iconVector,
                 accentColor = accentColorObject,
                 contentDescription = stringResource(id = cardItem.contentDescResId),
+                description = null,
                 onClick = { navController.navigate(cardItem.route) }
             )
         }

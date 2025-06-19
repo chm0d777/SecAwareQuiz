@@ -77,8 +77,8 @@
     <string name="quiz_screen_back_to_main_menu_button">Обратно в главное меню</string>
 
     <string name="app_title_full">SecAware Quiz</string>
-    <string name="home_greeting_format">Привет, %1$s!</string>
-    <string name="home_welcome_message">Добро пожаловать!</string>
+    <string name="home_greeting_format">Hello, %1$s!</string>
+    <string name="home_welcome_message">Welcome!</string>
     <string name="home_card_url_test_title">Тест Безопасности URL</string>
     <string name="home_card_url_test_description">Начать тест по URL</string>
     <string name="home_card_phishing_game_title">Игра: Фишинговые Уловки</string>
@@ -171,4 +171,22 @@
 
     <!-- Replace with your actual Web Client ID from Firebase console / google-services.json -->
     <string name="default_web_client_id" translatable="false">YOUR_WEB_CLIENT_ID_FROM_FIREBASE_CONSOLE_OR_JSON</string>
+
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="change_password_title">Change Password</string>
+    <string name="notifications_settings_title">Notifications Settings</string>
+    <string name="about_app_title">About App</string>
+
+    <string name="theme_selection_dialog_title">Select Theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system">System Default</string>
+
+    <string name="language_selection_dialog_title">Select Language</string>
+    <string name="language_english">English</string>
+    <string name="language_russian">Русский</string>
+
+    <string name="test_screen_title">Test</string>
+    <string name="test_screen_question_progress">Question %1$d/%2$d</string> <!-- For dynamic progress -->
+    <string name="test_screen_next_question">Next Question</string>
 </resources>

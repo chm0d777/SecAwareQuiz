@@ -1,0 +1,9 @@
+<resources>
+    <string name="fake_login_results_title">Результаты игры "Поддельный логин"</string>
+    <string name="fake_login_review_title">Обзор игры "Поддельный логин"</string>
+    <string name="fl_review_your_choice">Ваш выбор: %1$s</string>
+    <string name="fl_review_actual_answer">На самом деле: %1$s</string>
+    <string name="fl_review_value_real">Настоящий</string>
+    <string name="fl_review_value_fake">Поддельный</string>
+    <string name="fl_review_elements_label">На что обратить внимание:</string>
+</resources>

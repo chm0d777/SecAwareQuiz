@@ -3,6 +3,7 @@ package com.chmod777.secawarequiz.data
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
+import android.util.Log
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -11,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(
-    entities = [UrlCheckQuestion::class, GameItem::class, FakeLoginGameItem::class],
-    version = 1, // Consider incrementing version if schema changes significantly for existing users
+    entities = [UrlCheckQuestion::class, GameItem::class, FakeLoginGameItem::class, QuizQuestion::class],
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(StringListConverter::class)
@@ -47,9 +48,11 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 CoroutineScope(Dispatchers.IO).launch {
-                    val questionDao = database.questionDao()
-                    questionDao.deleteAllQuestions()
-                    val urlCheckQuestions = listOf(
+                    try {
+                        Log.d("AppDB", "Populating UrlCheckQuestions...")
+                        val questionDao = database.questionDao()
+                        questionDao.deleteAllQuestions()
+                        val urlCheckQuestions = listOf(
                         UrlCheckQuestion(
                             id = 0,
                             url = "http://sbebrbank.com/login",
@@ -202,10 +205,16 @@ abstract class AppDatabase : RoomDatabase() {
                         )
                     )
                     urlCheckQuestions.forEach { questionDao.insertQuestion(it) }
+                        Log.d("AppDB", "UrlCheckQuestions populated.")
+                    } catch (e: Exception) {
+                        Log.e("AppDB", "Error populating UrlCheckQuestions", e)
+                    }
 
-                    val gameItemDao = database.gameItemDao()
-                    gameItemDao.deleteAllGameItems()
-                    val gameItems = listOf(
+                    try {
+                        Log.d("AppDB", "Populating GameItems...")
+                        val gameItemDao = database.gameItemDao()
+                        gameItemDao.deleteAllGameItems()
+                        val gameItems = listOf(
                         GameItem(
                             id = 0,
                             scenario = "Вам пришло SMS: 'Ваша карта заблокирована. Для разблокировки перейдите по ссылке sberbank-unlock-card.xyz и следуйте инструкциям.' Ваши действия?",
@@ -371,11 +380,20 @@ abstract class AppDatabase : RoomDatabase() {
                             explanation = "Всегда выбирайте защищенную паролем сеть, особенно для доступа к конфиденциальной информации. Открытые сети не обеспечивают шифрования трафика."
                         )
                     )
-                    gameItemDao.insertAllGameItems(gameItems)
+                        if (gameItems.isEmpty()) {
+                            Log.w("AppDB", "GameItems list is empty before insert!")
+                        }
+                        gameItemDao.insertAllGameItems(gameItems)
+                        Log.d("AppDB", "GameItems populated.")
+                    } catch (e: Exception) {
+                        Log.e("AppDB", "Error populating GameItems", e)
+                    }
 
-                    val fakeLoginGameItemDao = database.fakeLoginGameItemDao()
-                    fakeLoginGameItemDao.deleteAllItems()
-                    val fakeLoginItems = listOf(
+                    try {
+                        Log.d("AppDB", "Populating FakeLoginGameItems...")
+                        val fakeLoginGameItemDao = database.fakeLoginGameItemDao()
+                        fakeLoginGameItemDao.deleteAllItems()
+                        val fakeLoginItems = listOf(
                         FakeLoginGameItem(
                             serviceName = "ВКонтакте",
                             description = "URL: vk.com-login-page.net, поля для ввода логина и пароля, кнопка 'Войти'. Дизайн идентичен официальному.",
@@ -412,7 +430,112 @@ abstract class AppDatabase : RoomDatabase() {
                             explanation = "Домен 'avito.payment-secure.com' не является официальным платежным шлюзом Avito для всех операций. Будьте осторожны при переходе на внешние ссылки для оплаты."
                         )
                     )
-                    fakeLoginGameItemDao.insertAll(fakeLoginItems)
+                        fakeLoginGameItemDao.insertAll(fakeLoginItems)
+                        Log.d("AppDB", "FakeLoginGameItems populated.")
+                    } catch (e: Exception) {
+                        Log.e("AppDB", "Error populating FakeLoginGameItems", e)
+                    }
+
+                    try {
+                        Log.d("AppDB", "Populating QuizQuestions...")
+                        val questionDao = database.questionDao()
+                        val quizQuestions = listOf(
+                            QuizQuestion(
+                                id = 1,
+                                quizGroupId = "URL_SAFETY",
+                                text = "Что из перечисленного не является распространенным признаком фишингового письма?",
+                                options = listOf(
+                                    "Обычное приветствие типа \"Уважаемый клиент\"",
+                                    "Настойчивые или угрожающие высказывания",
+                                    "Запрос личной информации",
+                                    "Грамматически правильный и профессиональный тон"
+                                ),
+                                correctAnswerIndex = 3,
+                                explanation = "Фишинговые письма часто содержат ошибки, небрежное форматирование и общий тон, не соответствующий официальной переписке."
+                            ),
+                            QuizQuestion(
+                                id = 2,
+                                quizGroupId = "PASSWORD_STRENGTH",
+                                text = "Какой из этих паролей самый надежный?",
+                                options = listOf("password123", "qwerty", "P@\$\$wOrd!", "johnsmith"),
+                                correctAnswerIndex = 2,
+                                explanation = "Надежный пароль должен содержать комбинацию заглавных и строчных букв, цифр и специальных символов, и не быть легко угадываемым."
+                            ),
+                            QuizQuestion(
+                                id = 4,
+                                quizGroupId = "PASSWORD_STRENGTH",
+                                text = "Что НЕ рекомендуется использовать в качестве части пароля?",
+                                options = listOf("Случайные символы", "Дату рождения", "Длинные фразы", "Менеджер паролей"),
+                                correctAnswerIndex = 1,
+                                explanation = "Личную информацию, такую как дата рождения, легко угадать или найти."
+                            ),
+                            QuizQuestion(
+                                id = 3,
+                                quizGroupId = "SOCIAL_ENGINEERING",
+                                text = "Что такое двухфакторная аутентификация (2FA)?",
+                                options = listOf(
+                                    "Использование двух разных паролей для одного аккаунта.",
+                                    "Метод защиты, требующий два разных типа подтверждения личности.",
+                                    "Двойная проверка антивирусом.",
+                                    "Вход в аккаунт с двух устройств одновременно."
+                                ),
+                                correctAnswerIndex = 1,
+                                explanation = "2FA требует два из трех возможных факторов: что-то, что вы знаете (пароль), что-то, что у вас есть (телефон для SMS), или что-то, чем вы являетесь (биометрия)."
+                            ),
+                            QuizQuestion(
+                                id = 5,
+                                quizGroupId = "URL_SAFETY",
+                                text = "Какой протокол обеспечивает шифрование данных между вашим браузером и сайтом?",
+                                options = listOf("HTTP", "HTTPS", "FTP", "SMTP"),
+                                correctAnswerIndex = 1,
+                                explanation = "HTTPS (HyperText Transfer Protocol Secure) использует шифрование для защиты передаваемых данных."
+                            ),
+                            QuizQuestion(
+                                id = 6,
+                                quizGroupId = "URL_SAFETY",
+                                text = "Вы получили email со ссылкой на сайт банка, но URL выглядит как 'sberbank.secure-login.com'. Что следует сделать?",
+                                options = listOf("Перейти по ссылке, если дизайн похож на официальный", "Проверить наличие HTTPS и перейти", "Не переходить, это подозрительный домен", "Позвонить в банк и уточнить"),
+                                correctAnswerIndex = 2,
+                                explanation = "Поддомены типа 'secure-login.com' часто используются в фишинге. Всегда проверяйте, что основной домен принадлежит банку (например, sberbank.ru)."
+                            ),
+                            QuizQuestion(
+                                id = 7,
+                                quizGroupId = "PASSWORD_STRENGTH",
+                                text = "Почему рекомендуется использовать менеджер паролей?",
+                                options = listOf("Он запоминает один сложный пароль вместо многих", "Он генерирует и хранит уникальные сложные пароли для каждого сайта", "Он автоматически вводит пароли без вашего ведома", "Он нужен только для компаний"),
+                                correctAnswerIndex = 1,
+                                explanation = "Менеджеры паролей помогают создавать и безопасно хранить сложные и уникальные пароли для всех ваших аккаунтов."
+                            ),
+                            QuizQuestion(
+                                id = 8,
+                                quizGroupId = "PASSWORD_STRENGTH",
+                                text = "Что такое 'брутфорс' атака на пароль?",
+                                options = listOf("Угадывание пароля по словарю", "Перебор всех возможных комбинаций символов", "Фишинговая атака для кражи пароля", "Атака с использованием вредоносного ПО"),
+                                correctAnswerIndex = 1,
+                                explanation = "Брутфорс (brute-force) атака заключается в систематическом переборе всех возможных комбинаций до тех пор, пока правильный пароль не будет найден."
+                            ),
+                            QuizQuestion(
+                                id = 9,
+                                quizGroupId = "SOCIAL_ENGINEERING",
+                                text = "Вам звонит 'сотрудник техподдержки' и просит удаленный доступ к вашему компьютеру для 'устранения вирусов'. Ваши действия?",
+                                options = listOf("Предоставить доступ, они же хотят помочь", "Положить трубку и не предоставлять доступ", "Спросить их имя и перезвонить на официальный номер компании", "Дать доступ, но внимательно следить за их действиями"),
+                                correctAnswerIndex = 1,
+                                explanation = "Никогда не предоставляйте удаленный доступ неизвестным лицам. Это распространенная тактика мошенников. Если сомневаетесь, найдите официальный номер и перезвоните."
+                            ),
+                            QuizQuestion(
+                                id = 10,
+                                quizGroupId = "SOCIAL_ENGINEERING",
+                                text = "Что такое 'претекстинг' в социальной инженерии?",
+                                options = listOf("Отправка SMS-спама", "Создание вымышленного сценария (предлога) для получения информации", "Взлом аккаунта через угадывание пароля", "Массовая рассылка фишинговых писем"),
+                                correctAnswerIndex = 1,
+                                explanation = "Претекстинг — это создание убедительной истории или предлога, чтобы обманом заставить жертву раскрыть конфиденциальную информацию или совершить определенные действия."
+                            )
+                        )
+                        questionDao.insertAllQuizQuestions(quizQuestions)
+                        Log.d("AppDB", "QuizQuestions populated.")
+                    } catch (e: Exception) {
+                        Log.e("AppDB", "Error populating QuizQuestions", e)
+                    }
                 }
             }
         }

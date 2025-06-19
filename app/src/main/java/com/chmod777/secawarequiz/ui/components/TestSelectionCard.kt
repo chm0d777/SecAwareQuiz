@@ -39,6 +39,7 @@ fun TestSelectionCard(
     icon: ImageVector,
     accentColor: Color,
     contentDescription: String,
+    description: String? = null,
     onClick: () -> Unit
 ) {
     Card(
@@ -47,7 +48,7 @@ fun TestSelectionCard(
             .height(IntrinsicSize.Min),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background), // Changed to background for white in light theme
         onClick = onClick
     ) {
         Column(
@@ -66,11 +67,23 @@ fun TestSelectionCard(
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(color = PrimaryText, fontWeight = FontWeight.SemiBold),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant, // THEME Color
                 textAlign = TextAlign.Center,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
+            if (!description.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f), // THEME Color with alpha
+                    textAlign = TextAlign.Center,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
@@ -84,6 +97,7 @@ fun PreviewTestSelectionCard() {
             icon = Icons.Filled.Security,
             accentColor = CardAccentPhishing,
             contentDescription = "Phishing test icon",
+            description = "This is a sample description for the phishing test to see how it looks on the card.",
             onClick = {}
         )
     }

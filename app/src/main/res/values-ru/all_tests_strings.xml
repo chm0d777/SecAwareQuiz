@@ -1,0 +1,16 @@
+<resources>
+    <!-- Strings for AllTestsScreen -->
+    <string name="alltests_quiz1_title">Тест на безопасность URL</string>
+    <string name="alltests_quiz1_desc">Проверьте свои знания о безопасных URL-адресах.</string>
+    <string name="alltests_minigame1_title">Мастер фишинга</string>
+    <string name="alltests_minigame1_desc">Определите попытки фишинга.</string>
+    <string name="alltests_fakelogin_title">Детектор поддельных логинов</string>
+    <string name="alltests_fakelogin_desc">Сможете ли вы распознать поддельную страницу входа?</string>
+    <string name="alltests_quiz2_title">Тест на надежность пароля</string>
+    <string name="alltests_quiz2_desc">Узнайте о надежных паролях.</string>
+    <string name="alltests_quiz3_title">Осведомленность о социальной инженерии</string>
+    <string name="alltests_quiz3_desc">Поймите тактики социальной инженерии.</string>
+    <string name="alltests_minigame2_title">Игра "Утечка данных"</string>
+    <string name="alltests_minigame2_desc">Сымитируйте реагирование на утечку данных.</string>
+    <string name="default_user_name">Пользователь</string>
+</resources>

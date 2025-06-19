@@ -3,6 +3,7 @@ package com.chmod777.secawarequiz.ui.screens.quiz
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed // Added for itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -13,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
+import com.chmod777.secawarequiz.viewmodels.quiz.QuizViewModel
 
 data class QuizQuestion(
     val id: String,
@@ -44,77 +47,48 @@ data class QuizScreenState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuizScreen(
+    viewModel: QuizViewModel = viewModel()
 ) {
-    val dummyQuestion = QuizQuestion(
-        id = "q1",
-        text = "Какова основная цель двухфакторной аутентификации (2FA)?",
-        options = listOf(
-            QuizOption("opt1", "Сделать пароли длиннее и сложнее."),
-            QuizOption("opt2", "Добавить дополнительный уровень безопасности помимо пароля."),
-            QuizOption("opt3", "Зашифровать ваше интернет-соединение."),
-            QuizOption("opt4", "Ускорить процесс входа.")
-        ),
-        correctAnswerId = "opt2",
-        explanation = "2FA добавляет второй этап проверки, например код с вашего телефона, что затрудняет доступ злоумышленникам, даже если у них есть ваш пароль."
-    )
-
-    val state = QuizScreenState(
-        currentQuestion = dummyQuestion,
-        selectedOptionId = null,
-        isAnswerSubmitted = false,
-        isCorrect = null,
-        score = 0,
-        currentQuestionIndex = 0,
-        totalQuestions = 5,
-        isQuizOver = false,
-        isLoading = false
-    )
-    var selectedOptionIdInternal by remember { mutableStateOf(state.selectedOptionId) }
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        if (state.isQuizOver) stringResource(R.string.quiz_screen_results_title)
-                        else stringResource(R.string.quiz_screen_question_progress_format, state.currentQuestionIndex + 1, state.totalQuestions)
+                        if (uiState.isQuizOver) stringResource(R.string.quiz_screen_results_title)
+                        else stringResource(R.string.quiz_screen_question_progress_format, uiState.currentQuestionIndex + 1, uiState.totalQuestions)
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { /* TODO: Handle back navigation, possibly pop from NavController */ }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
                     }
                 }
             )
         }
     ) { paddingValues ->
-        if (state.isLoading) {
+        if (uiState.isLoading) {
             Box(modifier = Modifier.fillMaxSize().padding(paddingValues), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
-        } else if (state.isQuizOver) {
+        } else if (uiState.isQuizOver) {
             QuizResultsContent(
-                score = state.score,
-                totalQuestions = state.totalQuestions,
-                onPlayAgain = { },
-                onBackToHome = { },
+                score = uiState.score,
+                totalQuestions = uiState.totalQuestions,
+                onPlayAgain = { viewModel.restartQuiz() },
+                onBackToHome = { /* TODO: Handle navigation back to home */ },
                 modifier = Modifier.padding(paddingValues)
             )
-        } else if (state.currentQuestion != null) {
+        } else if (uiState.currentQuestion != null) {
             QuizQuestionContent(
-                question = state.currentQuestion,
-                selectedOptionId = selectedOptionIdInternal,
-                onOptionSelected = { optionId ->
-                    if (!state.isAnswerSubmitted) {
-                        selectedOptionIdInternal = optionId
-                    }
-                },
-                isAnswerSubmitted = state.isAnswerSubmitted,
-                isCorrect = state.isCorrect,
-                onSubmitAnswer = { },
-                onNextQuestion = {
-                    selectedOptionIdInternal = null
-                },
+                question = uiState.currentQuestion!!, // Not null asserted by the else if condition
+                selectedOptionId = uiState.selectedOptionId,
+                onOptionSelected = { optionId -> viewModel.onOptionSelected(optionId) },
+                isAnswerSubmitted = uiState.isAnswerSubmitted,
+                isCorrect = uiState.isCorrect,
+                onSubmitAnswer = { viewModel.onSubmitAnswer() },
+                onNextQuestion = { viewModel.onNextQuestion() },
                 modifier = Modifier.padding(paddingValues)
             )
         } else {
@@ -150,8 +124,7 @@ fun QuizQuestionContent(
             )
         }
 
-        items(question.options.size, key = { question.options[it].id }) { index ->
-            val option = question.options[index]
+        itemsIndexed(items = question.options, key = { _, option -> option.id }) { index, option ->
             val isSelected = option.id == selectedOptionId
             val baseBorderColor = MaterialTheme.colorScheme.outline
             val interactionBorderColor = when {
@@ -164,7 +137,7 @@ fun QuizQuestionContent(
                 !isAnswerSubmitted && isSelected -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)
                 isAnswerSubmitted && isSelected && isCorrect == true -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f)
                 isAnswerSubmitted && isSelected && isCorrect == false -> MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
-                else -> MaterialTheme.colorScheme.surface
+                else -> MaterialTheme.colorScheme.background
             }
 
             Card(
@@ -265,6 +238,7 @@ fun QuizResultsContent(
 @Composable
 fun QuizScreenQuestionPreview() {
     SecAwareQuizTheme {
+        // ViewModel instance for preview will use its default dummy data
         QuizScreen()
     }
 }
@@ -273,12 +247,9 @@ fun QuizScreenQuestionPreview() {
 @Composable
 fun QuizScreenAnswerCorrectPreview() {
     SecAwareQuizTheme {
-        val question = QuizQuestion(
-            id = "q1", text = "Что такое фишинг?",
-            options = listOf(QuizOption("opt1", "Option 1"), QuizOption("opt2", "Пральна")),
-            correctAnswerId = "opt2",
-            explanation = "объясняю."
-        )
+        // This preview might not reflect a specific "correct answer" state
+        // unless the dummy data in the ViewModel is manipulated or a fake VM is provided.
+        // For simplicity, just showing the QuizScreen.
         QuizScreen()
     }
 }

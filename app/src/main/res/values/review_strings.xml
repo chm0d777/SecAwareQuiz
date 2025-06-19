@@ -1,0 +1,9 @@
+<resources>
+    <string name="review_answers_screen_title">Review Answers</string>
+    <string name="review_answers_no_data">No review data available.</string>
+    <string name="review_answers_question_number">Question #%1$d</string>
+    <string name="review_answers_your_answer_label">Your answer:</string>
+    <string name="review_answers_correct_answer_label">Correct answer:</string>
+    <string name="review_answers_explanation_label">Explanation:</string>
+    <string name="review_answers_not_answered">Not answered</string>
+</resources>

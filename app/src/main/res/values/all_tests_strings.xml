@@ -1,0 +1,16 @@
+<resources>
+    <!-- Strings for AllTestsScreen -->
+    <string name="alltests_quiz1_title">URL Safety Quiz</string>
+    <string name="alltests_quiz1_desc">Test your knowledge about safe URLs.</string>
+    <string name="alltests_minigame1_title">Phishing Master</string>
+    <string name="alltests_minigame1_desc">Identify phishing attempts.</string>
+    <string name="alltests_fakelogin_title">Fake Login Spotter</string>
+    <string name="alltests_fakelogin_desc">Can you spot the fake login page?</string>
+    <string name="alltests_quiz2_title">Password Strength Test</string>
+    <string name="alltests_quiz2_desc">Learn about strong passwords.</string>
+    <string name="alltests_quiz3_title">Social Engineering Awareness</string>
+    <string name="alltests_quiz3_desc">Understand social engineering tactics.</string>
+    <string name="alltests_minigame2_title">Data Breach Game</string>
+    <string name="alltests_minigame2_desc">Simulate responding to a data breach.</string>
+    <string name="default_user_name">User</string>
+</resources>
