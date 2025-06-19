@@ -45,6 +45,9 @@ class TestViewModel(private val questionDao: QuestionDao) : ViewModel() {
     val currentQuestionUiIndex: StateFlow<Int> = _currentQuestionUiIndex.asStateFlow()
     // _totalQuestionsInDisplayQuiz can be derived from _allQuestions.size() in the UI directly
 
+    private val _actualTotalQuestionsForResults = MutableStateFlow(0)
+    val actualTotalQuestionsForResults: StateFlow<Int> = _actualTotalQuestionsForResults.asStateFlow()
+
     private val _navigateToResults = MutableStateFlow(false)
     val navigateToResults: StateFlow<Boolean> = _navigateToResults.asStateFlow()
 
@@ -88,11 +91,13 @@ class TestViewModel(private val questionDao: QuestionDao) : ViewModel() {
                 // Use the latest value from _allQuestions state flow
                 val currentQuestions = _allQuestions.value
                 if (currentQuestions.isNotEmpty()) {
+                    _actualTotalQuestionsForResults.value = currentQuestions.size
                     currentQuestionIndex = 0
                     _currentQuestionUiIndex.value = currentQuestionIndex // UI index is 0-based here
                     _currentQuestion.value = currentQuestions[currentQuestionIndex]
                     _navigateToResults.value = false // Questions loaded, so not navigating to results
                 } else {
+                    _actualTotalQuestionsForResults.value = 0 // Or handle as appropriate if navigating to results immediately
                     _currentQuestion.value = null
                     _currentQuestionUiIndex.value = 0 // Or -1 if appropriate for UI
                     _navigateToResults.value = true // No questions found, navigate to results

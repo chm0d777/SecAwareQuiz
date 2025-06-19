@@ -94,12 +94,13 @@ fun MiniGameScreen(
     val scoreFromVM by viewModel.score.collectAsState()
     val answerSubmittedFromVM by viewModel.answerSubmitted.collectAsState()
     val showResultsFromVM by viewModel.showResults.collectAsState() // This is the state to use
-    val gameItemsFromVM = viewModel.gameItems.collectAsState().value // Needed for totalItems in navigation
+    // val gameItemsFromVM = viewModel.gameItems.collectAsState().value // Replaced by actualTotalForNavigation
+    val actualTotalForNavigation by viewModel.actualTotalItemsForResults.collectAsState()
 
     LaunchedEffect(showResultsFromVM) { // Use the specific state for LaunchedEffect
         if (showResultsFromVM) {
-            val totalItems = gameItemsFromVM.size // This might be 0 if list is cleared, handle in createRoute if needed
-            navController.navigate(Screen.MiniGameResults.createRoute(scoreFromVM, totalItems.coerceAtLeast(1))) {
+            // val totalItems = gameItemsFromVM.size // This might be 0 if list is cleared, handle in createRoute if needed
+            navController.navigate(Screen.MiniGameResults.createRoute(scoreFromVM, actualTotalForNavigation)) {
                 popUpTo(Screen.Home.route)
             }
             viewModel.onResultsNavigated()

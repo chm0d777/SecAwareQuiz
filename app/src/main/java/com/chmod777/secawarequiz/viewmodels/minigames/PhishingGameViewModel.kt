@@ -42,6 +42,9 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
 
+    private val _actualTotalItemsForResults = MutableStateFlow(0)
+    val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
+
     private val _answeredGameItemDetailsList = mutableListOf<AnsweredGameItemDetails>() // Added list
 
     init {
@@ -61,11 +64,13 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
                 .collect { items ->
                     _gameItems.value = items.shuffled()
                     if (_gameItems.value.isNotEmpty()) {
+                        _actualTotalItemsForResults.value = _gameItems.value.size
                         _currentItemIndex.value = 0
                         _currentItem.value = _gameItems.value[0]
                         _showResults.value = false
                         _score.value = 0
                     } else {
+                        _actualTotalItemsForResults.value = 0
                         _currentItem.value = null
                         _error.value = "Нет доступных игровых данных."
                     }

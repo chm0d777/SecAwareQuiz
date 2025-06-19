@@ -63,11 +63,12 @@ fun FakeLoginScreen(
     val userAnswered by viewModel.userAnswered.collectAsState()
     val isCorrect by viewModel.isCorrect.collectAsState()
     val showResults by viewModel.showResults.collectAsState() // This is the state to use
-    val gameItemsCount = viewModel.gameItems.collectAsState().value.size // Needed for totalItems
+    // val gameItemsCount = viewModel.gameItems.collectAsState().value.size // Replaced by actualTotalForNavigation
+    val actualTotalForNavigation by viewModel.actualTotalItemsForResults.collectAsState()
 
     LaunchedEffect(showResults) { // Use the specific state for LaunchedEffect
         if (showResults) {
-            navController.navigate(Screen.FakeLoginResults.createRoute(score, gameItemsCount.coerceAtLeast(1))) {
+            navController.navigate(Screen.FakeLoginResults.createRoute(score, actualTotalForNavigation)) {
                 popUpTo(Screen.Home.route)
             }
             viewModel.onResultsNavigated()

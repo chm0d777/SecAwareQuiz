@@ -39,6 +39,9 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
 
+    private val _actualTotalItemsForResults = MutableStateFlow(0)
+    val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
+
     private val _answeredItemsList = mutableListOf<AnsweredFakeLoginItemDetails>() // Added list
 
     init {
@@ -76,7 +79,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
             _answeredItemsList.clear() // Clear list
             dao.getAllItems().collectLatest { items ->
                 _gameItems.value = items.shuffled()
-
+                _actualTotalItemsForResults.value = _gameItems.value.size
                 _isLoading.value = false
             }
         }

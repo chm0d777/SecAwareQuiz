@@ -54,9 +54,12 @@ fun TestScreen(
 
     val currentQuestionUiIndex by testViewModel.currentQuestionUiIndex.collectAsState()
     val allQuestionsForQuiz by testViewModel.allQuestions.collectAsState()
-    val totalQuestionsInQuiz = allQuestionsForQuiz.size // This will become 0 when navigating
+    // val totalQuestionsInQuiz = allQuestionsForQuiz.size // This will become 0 when navigating
+    // Replaced by actualTotalForNavigation for the navigation call.
+    // totalQuestionsInQuiz is still used by QuestionContentDisplay and will be 0 when navigating.
 
     val scoreForResults by testViewModel.score.collectAsState()
+    val actualTotalForNavigation by testViewModel.actualTotalQuestionsForResults.collectAsState()
 
     LaunchedEffect(internalQuizId) {
         testViewModel.loadQuizByInternalId(internalQuizId)
@@ -66,7 +69,7 @@ fun TestScreen(
     LaunchedEffect(navigateToResultsState) {
         if (navigateToResultsState) {
             // Optional: kotlinx.coroutines.delay(16) // Delay for one frame
-            navController.navigate(Screen.QuizResults.createRoute(scoreForResults, totalQuestionsInQuiz.coerceAtLeast(1))) {
+            navController.navigate(Screen.QuizResults.createRoute(scoreForResults, actualTotalForNavigation)) {
                 popUpTo(Screen.Home.route)
             }
             testViewModel.onResultsNavigated() // Reset the flag in ViewModel
@@ -126,7 +129,7 @@ fun TestScreen(
                 QuestionContentDisplay(
                     question = questionData,
                     currentQuestionDisplayIndex = currentQuestionUiIndex,
-                    totalQuestionsInDisplayQuiz = totalQuestionsInQuiz, // Will be 0 if allQuestions is empty
+                    totalQuestionsInDisplayQuiz = allQuestionsForQuiz.size, // Use current size for display
                     selectedOptionIndex = selectedOptionIndex,
                     answerGiven = answerGiven,
                     isCorrect = isCorrect,
