@@ -3,7 +3,7 @@ package com.chmod777.secawarequiz.ui.screens.quiz
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed // Added for itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -82,7 +82,7 @@ fun QuizScreen(
             )
         } else if (uiState.currentQuestion != null) {
             QuizQuestionContent(
-                question = uiState.currentQuestion!!, // Not null asserted by the else if condition
+                question = uiState.currentQuestion!!,
                 selectedOptionId = uiState.selectedOptionId,
                 onOptionSelected = { optionId -> viewModel.onOptionSelected(optionId) },
                 isAnswerSubmitted = uiState.isAnswerSubmitted,
@@ -238,7 +238,7 @@ fun QuizResultsContent(
 @Composable
 fun QuizScreenQuestionPreview() {
     SecAwareQuizTheme {
-        // ViewModel instance for preview will use its default dummy data
+
         QuizScreen()
     }
 }
@@ -247,9 +247,7 @@ fun QuizScreenQuestionPreview() {
 @Composable
 fun QuizScreenAnswerCorrectPreview() {
     SecAwareQuizTheme {
-        // This preview might not reflect a specific "correct answer" state
-        // unless the dummy data in the ViewModel is manipulated or a fake VM is provided.
-        // For simplicity, just showing the QuizScreen.
+
         QuizScreen()
     }
 }

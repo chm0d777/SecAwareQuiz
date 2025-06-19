@@ -16,7 +16,7 @@ class GameReviewViewModel : ViewModel() {
     }
 
     fun clearReviewData() {
-        // Using the specific clear method from ReviewDataHolder
+
         ReviewDataHolder.clearGameReviewData()
         _answeredGameItems.value = emptyList()
     }

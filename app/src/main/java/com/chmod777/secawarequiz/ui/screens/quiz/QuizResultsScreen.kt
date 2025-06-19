@@ -1,7 +1,6 @@
 package com.chmod777.secawarequiz.ui.screens.quiz
 
-// Removed local ResultScreen imports as it's no longer defined here.
-// Keep other necessary imports for QuizResultsScreen itself.
+
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -15,7 +14,7 @@ fun QuizResultsScreen(
     score: Int,
     totalQuestions: Int
 ) {
-    val userName = "Пользователь" // Placeholder or from ViewModel
+    val userName = "Пользователь"
     val scorePercent = if (totalQuestions > 0) {
         (score.toFloat() / totalQuestions.toFloat() * 100).toInt()
     } else {
@@ -23,7 +22,7 @@ fun QuizResultsScreen(
     }
     val incorrectAnswers = totalQuestions - score
 
-    // Call the common ResultScreen
+
     ResultScreen(
         userName = userName,
         scorePercent = scorePercent,
@@ -37,8 +36,6 @@ fun QuizResultsScreen(
                 popUpTo(Screen.Home.route) { inclusive = true }
             }
         }
-        // If the common ResultScreen had a subtitle parameter, it would be passed here.
-        // e.g., subtitleText = "Вы прошли тест на осведомленность о фишинге..."
-        // For now, using the version without it.
+
     )
 }

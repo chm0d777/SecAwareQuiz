@@ -25,13 +25,13 @@ import coil.compose.rememberAsyncImagePainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-// import androidx.compose.ui.tooling.preview.Preview // Пока не добавляем Preview
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-// import androidx.navigation.compose.rememberNavController // Пока не добавляем для Preview
+
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.navigation.Screen
 import com.chmod777.secawarequiz.ui.theme.*
@@ -40,7 +40,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.AlertDialog
 import androidx.compose.ui.window.DialogProperties
-// import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme // Пока не добавляем для Preview
 
 
 @Composable
@@ -63,31 +62,31 @@ fun ProfileItemRow(
             Icon(
                 imageVector = icon,
                 contentDescription = iconContentDescription,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant, // THEME Color
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp),
-                color = MaterialTheme.colorScheme.onSurface, // THEME Color
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.weight(1f)
             )
             if (value != null) {
                 Text(
                     text = value,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant, // THEME Color
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(end = 8.dp)
                 )
             }
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = stringResource(id = R.string.profile_item_navigation_arrow_desc),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant // THEME Color
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Divider(color = MaterialTheme.colorScheme.outline, thickness = 0.5.dp) // THEME Color
+        Divider(color = MaterialTheme.colorScheme.outline, thickness = 0.5.dp)
     }
 }
 
@@ -103,11 +102,11 @@ fun ProfileScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background) // THEME Color
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize() // Changed to fillMaxSize
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
             Column(
@@ -135,7 +134,7 @@ fun ProfileScreen(
                 Text(
                     text = firebaseUser?.displayName ?: stringResource(R.string.profile_name_not_set),
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.SemiBold),
-                    color = MaterialTheme.colorScheme.onBackground, // THEME Color
+                    color = MaterialTheme.colorScheme.onBackground,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -143,7 +142,7 @@ fun ProfileScreen(
                 Text(
                     text = firebaseUser?.email ?: stringResource(R.string.profile_email_not_set),
                     style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant, // THEME Color
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -152,7 +151,7 @@ fun ProfileScreen(
             Text(
                 text = stringResource(id = R.string.profile_section_account).uppercase(),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold, fontSize = 14.sp),
-                color = MaterialTheme.colorScheme.primary, // THEME Color for section header
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
             )
             ProfileItemRow(icon = Icons.Filled.PersonOutline, iconContentDescription = stringResource(id = R.string.profile_icon_edit_profile_desc), title = stringResource(id = R.string.profile_item_edit_profile), onClick = { navController.navigate(Screen.EditProfile.route) })
@@ -162,7 +161,7 @@ fun ProfileScreen(
             Text(
                 text = stringResource(id = R.string.profile_section_settings).uppercase(),
                 style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold, fontSize = 14.sp),
-                color = MaterialTheme.colorScheme.primary, // THEME Color for section header
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 8.dp)
             )
             ProfileItemRow(
@@ -355,13 +354,3 @@ fun LanguageSelectionDialog(
     )
 }
 
-// Блок Preview пока не добавляем, чтобы сначала проверить компиляцию основного кода.
-// /*
-// @Preview(showBackground = true)
-// @Composable
-// fun ProfileScreenPreview() {
-// SecAwareQuizTheme {
-// ProfileScreen(navController = rememberNavController(), modifier = Modifier.padding(0.dp))
-// }
-// }
-// */

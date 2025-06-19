@@ -35,8 +35,8 @@ import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
 @Composable
 fun AppBottomNavigationBar(navController: NavController, items: List<Screen>) {
     NavigationBar(
-        // modifier = Modifier.border(width = 0.5.dp, color = BottomNavBorder), // Removed border
-        containerColor = MaterialTheme.colorScheme.background, // Changed to background for white in light theme
+
+        containerColor = MaterialTheme.colorScheme.background,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
@@ -76,11 +76,11 @@ fun AppBottomNavigationBar(navController: NavController, items: List<Screen>) {
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White, // Changed for contrast with new indicator
+                    selectedIconColor = Color.White,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    selectedTextColor = Color.White, // Changed for contrast with new indicator
+                    selectedTextColor = Color.White,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = LightBlueNavIndicator // User requested color #0D80F2
+                    indicatorColor = LightBlueNavIndicator
                 )
             )
         }
@@ -91,7 +91,7 @@ fun AppBottomNavigationBar(navController: NavController, items: List<Screen>) {
 @Composable
 fun PreviewAppBottomNavigationBar() {
     val navController = rememberNavController()
-    val items = listOf(Screen.Home, Screen.AllTests, Screen.Profile) // Added AllTests for preview
+    val items = listOf(Screen.Home, Screen.AllTests, Screen.Profile)
     SecAwareQuizTheme {
         AppBottomNavigationBar(navController = navController, items = items)
     }

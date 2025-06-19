@@ -1,7 +1,7 @@
 package com.chmod777.secawarequiz.ui.screens.quiz
 
-import androidx.compose.foundation.BorderStroke // Already present in other ResultScreen, but good practice
-import androidx.compose.foundation.background // Already present
+
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -13,11 +13,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color // Keep for specific color needs if any outside theme
+
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.chmod777.secawarequiz.R
@@ -38,14 +38,14 @@ fun ReviewScreen(
                 title = { Text(stringResource(R.string.review_answers_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        reviewViewModel.clearReviewData() // Clear data when leaving
+                        reviewViewModel.clearReviewData()
                         navController.popBackStack()
                     }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.common_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface, // Use direct surface color
+                    containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface,
                     navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )

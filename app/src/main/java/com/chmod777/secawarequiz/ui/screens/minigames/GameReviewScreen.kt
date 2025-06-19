@@ -19,20 +19,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.data.model.AnsweredGameItemDetails
-import com.chmod777.secawarequiz.viewmodels.GameReviewViewModel // Changed import
+import com.chmod777.secawarequiz.viewmodels.GameReviewViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameReviewScreen( // Renamed screen
+fun GameReviewScreen(
     navController: NavHostController,
-    reviewViewModel: GameReviewViewModel = viewModel() // Changed ViewModel type
+    reviewViewModel: GameReviewViewModel = viewModel()
 ) {
-    val answeredGameItems by reviewViewModel.answeredGameItems.collectAsState() // Changed state variable
+    val answeredGameItems by reviewViewModel.answeredGameItems.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.review_answers_screen_title)) }, // Can reuse or make a new string
+                title = { Text(stringResource(R.string.review_answers_screen_title)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         reviewViewModel.clearReviewData()
@@ -42,17 +42,17 @@ fun GameReviewScreen( // Renamed screen
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface, // Use direct surface color
+                    containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface,
                     navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         }
     ) { paddingValues ->
-        if (answeredGameItems.isEmpty()) { // Changed variable
+        if (answeredGameItems.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(paddingValues).padding(16.dp)
-                    .background(MaterialTheme.colorScheme.background), // Added background
+                    .background(MaterialTheme.colorScheme.background),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -66,13 +66,13 @@ fun GameReviewScreen( // Renamed screen
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background) // Added background
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(paddingValues)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-                itemsIndexed(answeredGameItems) { index, item -> // Changed variable
-                    GameAnswerReviewItem(item = item, questionNumber = index + 1) // Changed composable
-                    if (index < answeredGameItems.size - 1) { // Changed variable
+                itemsIndexed(answeredGameItems) { index, item ->
+                    GameAnswerReviewItem(item = item, questionNumber = index + 1)
+                    if (index < answeredGameItems.size - 1) {
                         Spacer(modifier = Modifier.height(12.dp))
                     }
                 }
@@ -82,7 +82,7 @@ fun GameReviewScreen( // Renamed screen
 }
 
 @Composable
-fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) { // Changed parameter type
+fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
@@ -90,13 +90,13 @@ fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) { /
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = stringResource(R.string.review_answers_question_number, questionNumber), // Reusing string
+                text = stringResource(R.string.review_answers_question_number, questionNumber),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(8.dp))
-            // Adapted for GameItem: item.gameItem.scenario
+
             Text(item.gameItem.scenario, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -105,7 +105,7 @@ fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) { /
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            // Adapted for GameItem: item.gameItem.options
+
             val userAnswerText = item.gameItem.options.getOrElse(item.userAnswerIndex) { stringResource(R.string.review_answers_not_answered) }
             Text(
                 text = userAnswerText,
@@ -121,7 +121,7 @@ fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) { /
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                // Adapted for GameItem: item.gameItem.options & item.gameItem.correctOptionIndex
+
                 Text(
                     text = item.gameItem.options[item.gameItem.correctOptionIndex],
                     style = MaterialTheme.typography.bodyMedium,
@@ -136,7 +136,7 @@ fun GameAnswerReviewItem(item: AnsweredGameItemDetails, questionNumber: Int) { /
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            // Adapted for GameItem: item.gameItem.explanation
+
             Text(
                 text = item.gameItem.explanation,
                 style = MaterialTheme.typography.bodySmall,

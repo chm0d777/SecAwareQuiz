@@ -16,8 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-// Add stringResource if any text becomes parameterized and needs R.string access
-// import androidx.compose.ui.res.stringResource
+
 
 @Composable
 internal fun ResultScreen(
@@ -27,7 +26,7 @@ internal fun ResultScreen(
     incorrectAnswers: Int,
     onReviewClicked: () -> Unit,
     onContinueClicked: () -> Unit
-    // subtitleText: String = "Вы завершили испытание. Давайте посмотрим на результат." // Default generic subtitle
+
 ) {
     Column(
         modifier = Modifier
@@ -38,7 +37,7 @@ internal fun ResultScreen(
     ) {
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = "Поздравляю, $userName!", // Still hardcoded Russian
+            text = "Поздравляю, $userName!",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground,
@@ -46,9 +45,9 @@ internal fun ResultScreen(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Вы завершили испытание. Давайте посмотрим на результат.", // Generic subtitle
+            text = "Вы завершили испытание. Давайте посмотрим на результат.",
             fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.onBackground, // Or onSurfaceVariant
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(32.dp))
@@ -56,7 +55,7 @@ internal fun ResultScreen(
             text = "Счёт", // Hardcoded Russian
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground // Or onSurfaceVariant
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text = "$scorePercent%",
@@ -66,19 +65,19 @@ internal fun ResultScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = "Правильные ответы: $correctAnswers", // Hardcoded Russian
+            text = "Правильные ответы: $correctAnswers", /
             fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onBackground // Or onSurfaceVariant
+            color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = "Неправильные ответы: $incorrectAnswers", // Hardcoded Russian
+            text = "Неправильные ответы: $incorrectAnswers",
             fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onBackground // Or onSurfaceVariant
+            color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.height(32.dp))
         Button(
             onClick = onReviewClicked,
-            shape = RoundedCornerShape(8.dp), // APPLY SHAPE
+            shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.outlinedButtonColors(containerColor = MaterialTheme.colorScheme.surface),
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
             modifier = Modifier.fillMaxWidth().height(48.dp)

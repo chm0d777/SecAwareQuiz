@@ -39,6 +39,9 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
 
+    private val _actualTotalItemsForResults = MutableStateFlow(0)
+    val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
+
     private val _answeredItemsList = mutableListOf<AnsweredFakeLoginItemDetails>() // Added list
 
     init {
@@ -76,7 +79,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
             _answeredItemsList.clear() // Clear list
             dao.getAllItems().collectLatest { items ->
                 _gameItems.value = items.shuffled()
-
+                _actualTotalItemsForResults.value = _gameItems.value.size
                 _isLoading.value = false
             }
         }
@@ -87,7 +90,7 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
 
         val current = _currentItem.value
         current?.let { item ->
-            _userAnswered.value = true // Set userAnswered only when an answer is processed for a valid item
+            _userAnswered.value = true
             val correct = (item.isFake == userChoseFake)
             if (correct) {
                 _score.value++
@@ -109,10 +112,10 @@ class FakeLoginViewModel(private val dao: FakeLoginGameItemDao) : ViewModel() {
             _userAnswered.value = false
             _isCorrect.value = null
         } else {
-            ReviewDataHolder.answeredFakeLoginItems = ArrayList(_answeredItemsList) // Store for review
+            ReviewDataHolder.answeredFakeLoginItems = ArrayList(_answeredItemsList)
             _currentItem.value = null
-            _gameItems.value = emptyList() // Also clear all game items list
-            _currentItemIndex.value = 0 // Reset current item index
+            _gameItems.value = emptyList()
+            _currentItemIndex.value = 0
             _showResults.value = true
         }
     }

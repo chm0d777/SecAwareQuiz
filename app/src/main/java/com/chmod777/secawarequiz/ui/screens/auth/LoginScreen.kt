@@ -47,7 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.navigation.NavRoutes
-import com.chmod777.secawarequiz.navigation.Screen // Import Screen
+import com.chmod777.secawarequiz.navigation.Screen
 import com.chmod777.secawarequiz.ui.theme.*
 import com.chmod777.secawarequiz.viewmodels.auth.LoginViewModel
 

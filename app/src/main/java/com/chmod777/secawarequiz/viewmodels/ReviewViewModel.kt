@@ -17,14 +17,11 @@ class ReviewViewModel : ViewModel() {
 
     private fun loadAnsweredQuestions() {
         _answeredQuestions.value = ReviewDataHolder.answeredQuestions ?: emptyList()
-        // Optional: Clear ReviewDataHolder.answeredQuestions here if it should only be consumed once.
-        // For this implementation, let's clear it when explicitly leaving the screen or done.
-        // ReviewDataHolder.answeredQuestions = null
+
     }
 
     fun clearReviewData() {
-        // Call this if the data should be cleared when done reviewing,
-        // e.g. when explicitly navigating away from the review screen.
+
         ReviewDataHolder.answeredQuestions = null
         _answeredQuestions.value = emptyList()
     }

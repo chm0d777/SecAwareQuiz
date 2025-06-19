@@ -26,7 +26,7 @@ val CardAccentDataSecurity = Color(0xFF9575CD)
 val CardAccentQuiz = CardAccentLiteracy
 val CardAccentFakeLogin = CardAccentDataSecurity
 
-val FigmaLightSurface = Color(0xFFF7FAFC) // Added
+val FigmaLightSurface = Color(0xFFF7FAFC)
 
 val LightBlueNavIndicator = Color(0xFF0D80F2)
 

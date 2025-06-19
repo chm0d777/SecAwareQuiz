@@ -36,14 +36,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-// import androidx.compose.material3.surfaceColorAtElevation // Not strictly needed if surface is used directly
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color // Already present, good.
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.chmod777.secawarequiz.R
 import com.chmod777.secawarequiz.ui.theme.SecAwareQuizTheme
-import com.chmod777.secawarequiz.ui.theme.LightBlueNavIndicator // Added import
+import com.chmod777.secawarequiz.ui.theme.LightBlueNavIndicator
 import com.chmod777.secawarequiz.data.GameItem
 import com.chmod777.secawarequiz.navigation.Screen
 import com.chmod777.secawarequiz.viewmodels.minigames.PhishingGameViewModel
@@ -93,13 +93,14 @@ fun MiniGameScreen(
     val selectedOptionIndexFromVM by viewModel.selectedOptionIndex.collectAsState()
     val scoreFromVM by viewModel.score.collectAsState()
     val answerSubmittedFromVM by viewModel.answerSubmitted.collectAsState()
-    val showResultsFromVM by viewModel.showResults.collectAsState() // This is the state to use
-    val gameItemsFromVM = viewModel.gameItems.collectAsState().value // Needed for totalItems in navigation
+    val showResultsFromVM by viewModel.showResults.collectAsState()
 
-    LaunchedEffect(showResultsFromVM) { // Use the specific state for LaunchedEffect
+    val actualTotalForNavigation by viewModel.actualTotalItemsForResults.collectAsState()
+
+    LaunchedEffect(showResultsFromVM) {
         if (showResultsFromVM) {
-            val totalItems = gameItemsFromVM.size // This might be 0 if list is cleared, handle in createRoute if needed
-            navController.navigate(Screen.MiniGameResults.createRoute(scoreFromVM, totalItems.coerceAtLeast(1))) {
+
+            navController.navigate(Screen.MiniGameResults.createRoute(scoreFromVM, actualTotalForNavigation)) {
                 popUpTo(Screen.Home.route)
             }
             viewModel.onResultsNavigated()
@@ -123,7 +124,7 @@ fun MiniGameScreen(
             )
         }
     ) { paddingValues ->
-        if (showResultsFromVM) { // Conditional rendering for the entire Scaffold content
+        if (showResultsFromVM) {
             Box(
                 modifier = Modifier.fillMaxSize().padding(paddingValues).background(MaterialTheme.colorScheme.background),
                 contentAlignment = Alignment.Center
@@ -132,14 +133,14 @@ fun MiniGameScreen(
                     CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        "Переход к результатам...", // Hardcoded string
+                        "Переход к результатам...",
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 18.sp
                     )
                 }
             }
         } else {
-            // Existing Column with if (isLoading) / else if (error) / else if (currentItemFromVM) etc.
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -184,7 +185,7 @@ fun MiniGameScreen(
                             Text(stringResource(R.string.common_try_again))
                         }
                     }
-                } else if (currentItemFromVM != null) { // Removed showResultsFromVM check here as it's handled above
+                } else if (currentItemFromVM != null) {
                     val item = currentItemFromVM!!
                     Text(
                         text = stringResource(R.string.common_score_prefix) + scoreFromVM,

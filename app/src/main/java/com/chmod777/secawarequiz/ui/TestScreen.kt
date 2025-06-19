@@ -15,7 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color // Keep for figmaColor definitions
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
-// Removed figma color definitions as they are not used or replaced by MaterialTheme
+
 
 @Composable
 fun TestScreen(
@@ -45,7 +45,7 @@ fun TestScreen(
     internalQuizId: Int
 ) {
     val currentQuestion by testViewModel.currentQuestion.collectAsState()
-    // IMPORTANT: Use a distinct state variable for the LaunchedEffect condition
+
     val navigateToResultsState by testViewModel.navigateToResults.collectAsState()
     val explanationText by testViewModel.explanationText.collectAsState()
     val answerGiven by testViewModel.answerGiven.collectAsState()
@@ -54,43 +54,44 @@ fun TestScreen(
 
     val currentQuestionUiIndex by testViewModel.currentQuestionUiIndex.collectAsState()
     val allQuestionsForQuiz by testViewModel.allQuestions.collectAsState()
-    val totalQuestionsInQuiz = allQuestionsForQuiz.size // This will become 0 when navigating
+
 
     val scoreForResults by testViewModel.score.collectAsState()
+    val actualTotalForNavigation by testViewModel.actualTotalQuestionsForResults.collectAsState()
 
     LaunchedEffect(internalQuizId) {
         testViewModel.loadQuizByInternalId(internalQuizId)
     }
 
-    // Observe the distinct state for navigation
+
     LaunchedEffect(navigateToResultsState) {
         if (navigateToResultsState) {
-            // Optional: kotlinx.coroutines.delay(16) // Delay for one frame
-            navController.navigate(Screen.QuizResults.createRoute(scoreForResults, totalQuestionsInQuiz.coerceAtLeast(1))) {
+
+            navController.navigate(Screen.QuizResults.createRoute(scoreForResults, actualTotalForNavigation)) {
                 popUpTo(Screen.Home.route)
             }
-            testViewModel.onResultsNavigated() // Reset the flag in ViewModel
+            testViewModel.onResultsNavigated()
         }
     }
 
-    // Conditional rendering for the entire screen content
+
     if (navigateToResultsState) {
         Box(
             modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) // Use theme color
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Переход к результатам...", // Assume this string resource exists or add it
+                    text = "Переход к результатам...",
                     color = MaterialTheme.colorScheme.onBackground,
                     fontSize = 18.sp
                 )
             }
         }
     } else {
-        // Original Column content
+
         Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
             Text(
                 text = stringResource(R.string.test_screen_title),
@@ -103,18 +104,17 @@ fun TestScreen(
                     .padding(top = 16.dp, bottom = 12.dp)
             )
 
-            // No early return here anymore based on navigateToResults
-            // The null check for questionData will handle the loading state naturally
+
 
             val questionData = currentQuestion
 
-            if (questionData == null) { // This handles initial loading AND the state where quiz is finished
+            if (questionData == null) {
                 Column(
                     modifier = Modifier.fillMaxSize().padding(16.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary) // Use theme color
+                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         stringResource(R.string.test_screen_loading_question),
@@ -126,7 +126,7 @@ fun TestScreen(
                 QuestionContentDisplay(
                     question = questionData,
                     currentQuestionDisplayIndex = currentQuestionUiIndex,
-                    totalQuestionsInDisplayQuiz = totalQuestionsInQuiz, // Will be 0 if allQuestions is empty
+                    totalQuestionsInDisplayQuiz = allQuestionsForQuiz.size,
                     selectedOptionIndex = selectedOptionIndex,
                     answerGiven = answerGiven,
                     isCorrect = isCorrect,
@@ -175,7 +175,7 @@ private fun QuestionContentDisplay(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(8.dp)
-                    .background(MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(4.dp)) // Use theme color
+                    .background(MaterialTheme.colorScheme.surfaceVariant, shape = RoundedCornerShape(4.dp))
             ) {
                 Box(
                     modifier = Modifier
@@ -183,7 +183,7 @@ private fun QuestionContentDisplay(
                             if (totalQuestionsInDisplayQuiz > 0) (currentQuestionDisplayIndex + 1).toFloat() / totalQuestionsInDisplayQuiz else 0f
                         )
                         .height(8.dp)
-                        .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(4.dp)) // Use theme color
+                        .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(4.dp))
                 )
             }
         }
@@ -203,8 +203,8 @@ private fun QuestionContentDisplay(
                 val isCorrectOption = index == question.correctAnswerIndex
 
                 val optionCardBackgroundColor = when {
-                    answerGiven && isCorrectOption -> Color(0xFF4CAF50) // figmaOptionCorrectBg
-                    answerGiven && isCurrentlySelected && isCorrect == false -> Color(0xFFF44336) // figmaOptionIncorrectBg
+                    answerGiven && isCorrectOption -> Color(0xFF4CAF50)
+                    answerGiven && isCurrentlySelected && isCorrect == false -> Color(0xFFF44336)
                     !answerGiven && isCurrentlySelected -> MaterialTheme.colorScheme.primaryContainer
                     else -> MaterialTheme.colorScheme.surfaceVariant
                 }
@@ -235,7 +235,7 @@ private fun QuestionContentDisplay(
                             Icon(
                                 imageVector = Icons.Filled.CheckCircle,
                                 contentDescription = "Selected",
-                                tint = MaterialTheme.colorScheme.primary, // figmaOptionSelectedIconColor
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(24.dp)
                             )
                             Spacer(Modifier.width(8.dp))

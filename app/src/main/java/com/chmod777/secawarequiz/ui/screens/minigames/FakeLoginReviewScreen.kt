@@ -42,7 +42,7 @@ fun FakeLoginReviewScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface, // Use direct surface color
+                    containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface,
                     navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
@@ -56,7 +56,7 @@ fun FakeLoginReviewScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    stringResource(R.string.review_answers_no_data), // Reusing generic "no data" string
+                    stringResource(R.string.review_answers_no_data),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -89,7 +89,7 @@ fun FakeLoginReviewItem(item: AnsweredFakeLoginItemDetails, itemNumber: Int) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                // Reusing generic question number string, or create a new one like "Item #%1$d"
+
                 text = stringResource(R.string.review_answers_question_number, itemNumber),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -124,7 +124,7 @@ fun FakeLoginReviewItem(item: AnsweredFakeLoginItemDetails, itemNumber: Int) {
             }
 
             Text(
-                stringResource(R.string.review_answers_explanation_label), // Reusing generic explanation label
+                stringResource(R.string.review_answers_explanation_label),
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -28,20 +28,19 @@ import com.chmod777.secawarequiz.ui.theme.*
 import com.chmod777.secawarequiz.viewmodels.AllTestsViewModel
 
 
-// data class TestListItem(val id: String, val title: String, val description: String, val route: String) // Removed local definition
 
 @Composable
 fun AllTestsScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    allTestsViewModel: AllTestsViewModel = viewModel() // Inject ViewModel
+    allTestsViewModel: AllTestsViewModel = viewModel()
 ) {
-    val allTestsAndGames by allTestsViewModel.testItems.collectAsState() // Collect from ViewModel
+    val allTestsAndGames by allTestsViewModel.testItems.collectAsState()
 
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background) // THEME Color
+            .background(MaterialTheme.colorScheme.background)
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -60,11 +59,11 @@ fun AllTestsScreen(
                     else -> Icons.Filled.Quiz to MaterialTheme.colorScheme.primary
                 }
                 TestSelectionCard(
-                    title = stringResource(id = testItem.titleResId), // Use stringResource
+                    title = stringResource(id = testItem.titleResId),
                     icon = icon,
                     accentColor = color,
-                    contentDescription = "Icon for " + stringResource(id = testItem.titleResId), // Use stringResource
-                    description = stringResource(id = testItem.descriptionResId), // Use stringResource
+                    contentDescription = "Icon for " + stringResource(id = testItem.titleResId),
+                    description = stringResource(id = testItem.descriptionResId),
                     onClick = { navController.navigate(testItem.route) }
                 )
             }
@@ -76,9 +75,7 @@ fun AllTestsScreen(
 @Composable
 fun AllTestsScreenPreview() {
     SecAwareQuizTheme {
-        // Preview will likely not work correctly with default ViewModel instantiation
-        // without Hilt or a custom factory. For now, let it be.
-        // It might show an empty screen or crash if ViewModel relies on complex dependencies not available in preview.
+
         AllTestsScreen(navController = rememberNavController(), modifier = Modifier)
     }
 }

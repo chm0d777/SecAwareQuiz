@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.chmod777.secawarequiz.data.GameItem
 import com.chmod777.secawarequiz.data.GameItemDao
-import com.chmod777.secawarequiz.data.ReviewDataHolder // Added import
-import com.chmod777.secawarequiz.data.model.AnsweredGameItemDetails // Added import
+import com.chmod777.secawarequiz.data.ReviewDataHolder
+import com.chmod777.secawarequiz.data.model.AnsweredGameItemDetails
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,6 +42,9 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
     private val _showResults = MutableStateFlow(false)
     val showResults: StateFlow<Boolean> = _showResults.asStateFlow()
 
+    private val _actualTotalItemsForResults = MutableStateFlow(0)
+    val actualTotalItemsForResults: StateFlow<Int> = _actualTotalItemsForResults.asStateFlow()
+
     private val _answeredGameItemDetailsList = mutableListOf<AnsweredGameItemDetails>() // Added list
 
     init {
@@ -49,7 +52,7 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
     }
 
     fun loadGameItems() {
-        _answeredGameItemDetailsList.clear() // Clear list when new game starts
+        _answeredGameItemDetailsList.clear()
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
@@ -61,11 +64,13 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
                 .collect { items ->
                     _gameItems.value = items.shuffled()
                     if (_gameItems.value.isNotEmpty()) {
+                        _actualTotalItemsForResults.value = _gameItems.value.size
                         _currentItemIndex.value = 0
                         _currentItem.value = _gameItems.value[0]
                         _showResults.value = false
                         _score.value = 0
                     } else {
+                        _actualTotalItemsForResults.value = 0
                         _currentItem.value = null
                         _error.value = "Нет доступных игровых данных."
                     }
@@ -112,10 +117,10 @@ class PhishingGameViewModel(private val gameItemDao: GameItemDao) : ViewModel() 
             _currentItem.value = _gameItems.value[_currentItemIndex.value]
             resetCurrentItemState()
         } else {
-            ReviewDataHolder.answeredGameItems = ArrayList(_answeredGameItemDetailsList) // Store for review
+            ReviewDataHolder.answeredGameItems = ArrayList(_answeredGameItemDetailsList)
             _currentItem.value = null
-            _gameItems.value = emptyList() // Also clear all game items list
-            _currentItemIndex.value = 0 // Reset current item index
+            _gameItems.value = emptyList()
+            _currentItemIndex.value = 0
             _showResults.value = true
         }
     }
